@@ -1,0 +1,30 @@
+{
+  "name": "vue-boilerplate",
+  "version": "1.0.0",
+  "description": "> A Vue.js project",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "apollo-client": "^1.4.0",
+    "axios": "^0.16.2",
+    "codemirror": "^5.26.0",
+    "graphql-tag": "^2.2.2",
+    "highlight.js": "^9.12.0",
+    "marked": "^0.3.6",
+    "subscriptions-transport-ws": "^0.7.1",
+    "vue": "^2.3.3",
+    "vue-apollo": "^2.1.0-beta.8",
+    "vue-router": "^2.5.3",
+    "vuetify": "^0.12.7",
+    "vuex": "^2.3.1"
+  },
+  "scripts": {
+    "dev": "vue build src -h -o -c vue.config.js",
+    "build": "vue build src --prod -c vue.config.js --wp webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^2.6.1"
+  }
+}

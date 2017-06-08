@@ -3,47 +3,62 @@
         v-flex(xs12 sm6, :style="[background]").pa-0
             .layout.row.h-100.ma-0
                 .m-a.white--text.text-xs-center
-                    .display-2(v-if="!loading") {{user ? user.firstName || 'No Name' : 'Get Started'}}
+                    .display-1(v-if="!loading") {{user ? user.firstName || 'No Name' : 'Enter Existing Email to Sign In or Vice Versa'}}
                     v-progress-circular(indeterminate :size="100" v-else)
         v-flex(xs12 sm6).pa-0.accent
-            .layout.row.h-100.ma-0
+            .layout.row.h-100.ma-0(style="position: relative")
+                v-btn(style="position: absolute" icon light v-if="signUp" @click.native="signUp = false")
+                    v-icon(light) arrow_back
                 .m-a
                     v-container(fluid)
                         .display-1.text-xs-center.primary--text DevWebTuts
-                        v-text-field(prepend-icon="email" light type="email" label="Email" v-model="credentials.email" hide-details)
+                        v-text-field(v-if="!signUp" prepend-icon="email" light type="email" label="Email" v-model="credentials.email" hide-details)
                         v-fade-transition(mode="out-in")
-                            template(v-if="user")
-                                v-text-field(prepend-icon="vpn_key" light hide-details type="password" label="Password" v-model="credentials.password")
-                        v-btn(primary block large light @click.native="action") {{user ? 'Sign In' : credentials.email ? 'Sign Up' : 'Next'}}
+                            div(v-if="signUp")
+                                .title.text-xs-center.white--text {{credentials.email}}
+                                v-text-field(light hide-details type="text" label="First Name" v-model="credentials.firstName")
+                                v-text-field(light hide-details type="text" label="Middle Name" v-model="credentials.middleName")
+                                v-text-field(light hide-details type="text" label="Last Name" v-model="credentials.lastName")
+                        v-text-field(v-if="signUp || user" prepend-icon="vpn_key" light hide-details type="password" label="Password" v-model="credentials.password")
+                        v-btn(primary block large light @click.native="action", :disabled="!validEmail || loading !== 0") {{user ? 'Sign In' : 'Sign Up'}}
+        
 </template>
 
 <script>
 import gql from '../gql';
 export default {
     name: 'login',
+    props: ['currentUser'],
     data() {
         return {
             credentials: {
                 email: '',
-                password: ''
+                password: '',
+                firstName: '',
+                middleName: '',
+                lastName: '',
             },
             user: null,
             loading: 0,
+            signUp: false
         }
     },
     apollo: {
         user: {
             query: gql.queries.user,
             loadingKey: 'loading',
-            pollInterval: 1000,
             variables() {
                 return {
                     email: this.credentials.email
                 }
-            }
+            },
+            fetchPolicy: 'network-only'
         }
     },
     computed: {
+        validEmail() {
+            return this.$store.getters.$emailRegEx.test(this.credentials.email);
+        },
         background() {
             return {
                 background: this.user ? `linear-gradient(rgba(39, 174, 96, 0.25), rgba(0, 0, 0, 0.5)),
@@ -53,28 +68,24 @@ export default {
     },
     methods: {
         async action() {
-            if(this.user) {
+            if (this.user) {
                 this.login();
+            } else if (this.validEmail) {
+                if (!this.signUp) {
+                    this.signUp = true;
+                } else {
+                    this.register();
+                }
             }
         },
-        async login() {
-            let user = this.$apollo.mutate({
-                mutation: gql.mutations.signInUser,
-                variables: {
-                    email: this.credentials.email,
-                    password: this.credentials.password
-                }
-            })
-            console.log(user);
-        },
-        register() {
-            this.$apollo.mutate({
-                mutation: gql.mutations.createUser,
-                variables: {
-                    email: this.user.email,
-                    password: this.user.password
-                }
-            })
+        async register() {
+            this.signUp = false;
+        }
+    },
+    watch: {
+        signUp(val) {
+            if(val) return;
+            Object.keys(this.credentials).forEach(key => this.credentials[key] = '');            
         }
     }
 }

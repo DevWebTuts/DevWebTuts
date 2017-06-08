@@ -26,5 +26,15 @@ export default {
             middleName
             lastName
         }
+    }`,
+    currentUser: `{
+        currentUser: user {
+            id
+            firstName
+            lastName
+            middleName
+            email
+            image
+        }    
     }`
 }

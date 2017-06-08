@@ -1,7 +1,10 @@
-import ApolloClient, { createNetworkInterface } from 'apollo-client'
+import ApolloClient, {
+	createNetworkInterface
+} from 'apollo-client'
+
 const endpoints = {
-    wss: 'wss://subscriptions.graph.cool/v1/cj3ec1p9c3h9g0189gm3qmktg',
-    https: 'https://api.graph.cool/simple/v1/cj3goqcwxeone0162mo673455'
+	wss: 'wss://subscriptions.graph.cool/v1/cj3ec1p9c3h9g0189gm3qmktg',
+	https: 'https://api.graph.cool/simple/v1/cj3goqcwxeone0162mo673455'
 };
 //import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws'
 
@@ -11,20 +14,32 @@ const endpoints = {
 // })
 
 // __SIMPLE_API_ENDPOINT_ looks similar to: `https://api.graph.cool/simple/v1/<PROJECT_ID>`
-const networkInterface = createNetworkInterface({ 
+const networkInterface = createNetworkInterface({
 	uri: endpoints.https,
-	headers: {
-		Authorization: `Bearer: localStorage.getItem('auth0IdToken')`
-	}
+
 })
-console.log(networkInterface,localStorage.getItem('auth0IdToken'));
+networkInterface.use([{
+  applyMiddleware (req, next) {
+    if (!req.options.headers) {
+      req.options.headers = {}
+    }
+
+    if (localStorage.graphCoolToken) {
+      req.options.headers.Authorization = `Bearer ${localStorage.graphCoolToken}`;
+	  
+    }
+    next()
+  },
+}])
 // const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
 //   networkInterface,
 //   wsClient
 // )
 
-export default new ApolloClient({
+const client = new ApolloClient({
 	networkInterface: networkInterface,
 	dataIdFromObject: o => o.id,
 	connectToDevTools: true
 });
+
+export default client;

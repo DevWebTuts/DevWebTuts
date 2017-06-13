@@ -25,68 +25,67 @@
 </template>
 
 <script>
-import gql from '../gql';
-export default {
-    name: 'login',
-    props: ['currentUser'],
-    data() {
-        return {
-            credentials: {
-                email: '',
-                password: '',
-                firstName: '',
-                middleName: '',
-                lastName: '',
-            },
-            user: null,
-            loading: 0,
-            signUp: false
-        }
-    },
-    apollo: {
-        user: {
-            query: gql.queries.user,
-            loadingKey: 'loading',
-            variables() {
-                return {
-                    email: this.credentials.email
-                }
-            },
-            fetchPolicy: 'network-only'
-        }
-    },
-    computed: {
-        validEmail() {
-            return this.$store.getters.$emailRegEx.test(this.credentials.email);
-        },
-        background() {
+    import gql from '../gql';
+    export default {
+        name: 'login',
+        props: ['currentUser'],
+        data() {
             return {
-                background: this.user ? `linear-gradient(rgba(39, 174, 96, 0.25), rgba(0, 0, 0, 0.5)),
-                url(${this.user.image}) center center / cover no-repeat fixed` : '#27AE60'
+                credentials: {
+                    email: '',
+                    password: '',
+                    firstName: '',
+                    middleName: '',
+                    lastName: '',
+                },
+                user: null,
+                loading: 0,
+                signUp: false
             }
-        }
-    },
-    methods: {
-        async action() {
-            if (this.user) {
-                this.login();
-            } else if (this.validEmail) {
-                if (!this.signUp) {
-                    this.signUp = true;
-                } else {
-                    this.register();
+        },
+        apollo: {
+            user: {
+                query: gql.queries.user,
+                loadingKey: 'loading',
+                variables() {
+                    return {
+                        email: this.credentials.email
+                    }
+                },
+                fetchPolicy: 'network-only'
+            }
+        },
+        computed: {
+            validEmail() {
+                return this.$store.getters.$emailRegEx.test(this.credentials.email);
+            },
+            background() {
+                return {
+                    background: this.user ? `linear-gradient(rgba(39, 174, 96, 0.25), rgba(0, 0, 0, 0.5)),
+                        url(${this.user.image}) center center / cover no-repeat fixed` : '#27AE60'
                 }
             }
         },
-        async register() {
-            this.signUp = false;
-        }
-    },
-    watch: {
-        signUp(val) {
-            if(val) return;
-            Object.keys(this.credentials).forEach(key => this.credentials[key] = '');            
+        methods: {
+            async action() {
+                let { email, password } = this.credentials;
+                if (this.user) {
+                    this.$store.dispatch('login', { email, password });
+                } else if (this.validEmail) {
+                    if (!this.signUp) {
+                        this.signUp = true;
+                    } else {
+                        this.$store.dispatch('register');
+                        this.signUp = false;
+                    }
+                }
+            },
+        },
+        watch: {
+            signUp(val) {
+                if (val) return;
+                Object.keys(this.credentials).forEach(key => this.credentials[key] = '');
+            }
         }
     }
-}
 </script>

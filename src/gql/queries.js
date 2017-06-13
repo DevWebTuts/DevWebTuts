@@ -14,7 +14,7 @@ export default {
         article: Article(id: $id) {
             id
             title
-            body
+            url
         }
     }`,
     user: `query User($email: String!) {

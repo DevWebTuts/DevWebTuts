@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import router from './router';
 import gql from './gql';
+import client from './apollo';
 Vue.use(Vuex);
 
 const state = {
@@ -36,14 +37,14 @@ const actions = {
         if (!data) return;
         commit('CURRENT_USER', data.currentUser);
     },
-    async login() {
+    async login({},{email,password}) {
         let {
             data
-        } = await this.$apollo.mutate({
+        } = await client.mutate({
             mutation: gql.mutations.signInUser,
             variables: {
-                email: this.credentials.email,
-                password: this.credentials.password
+                email,
+                password
             }
         })
         if (!data) return;
@@ -58,7 +59,7 @@ const actions = {
         lastName,
         middleName
     }) {
-        await this.$apollo.mutate({
+        await client.mutate({
             mutation: gql.mutations.createUser,
             variables: {
                 email,

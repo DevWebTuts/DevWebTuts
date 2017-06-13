@@ -4,32 +4,32 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const routes = [
-	{
+const routes = [{
 		path: '/',
-		component:  Components.Home,
+		component: Components.Home,
 		name: 'home'
 	},
 	{
 		path: '/start',
-		component:  Components.Start,
+		component: Components.Start,
 		name: 'start'
 	},
 	{
 		path: '/article/:id',
-		component:  Components.Article,
+		component: Components.Article,
 		name: 'article',
 		props: true
 	},
 	{
 		path: '/*',
-		redirect: {name: 'home'}
+		redirect: {
+			name: 'home'
+		}
 	},
 ]
 
 const router = new VueRouter({
-	mode: 'history',
-    routes
+	routes
 })
 
 export default router;

@@ -15,6 +15,7 @@ export default {
             id
             title
             url
+            body
         }
     }`,
     user: `query User($email: String!) {

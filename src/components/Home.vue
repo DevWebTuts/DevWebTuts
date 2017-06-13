@@ -15,7 +15,7 @@
 					v-flex(xs12 sm6 md3 lg2
 						@click="$router.push({name: 'article',params: {id: article.id}})"
 						v-for="(article,index) in articles",
-						:key="index")
+						:key="index").mb-4
 						v-card(hover style="min-height: 300px;" height="100%", :img="article.image")
 							.layout.row.h-100.ov.white--text.ma-0
 								.m-a.text-xs-center

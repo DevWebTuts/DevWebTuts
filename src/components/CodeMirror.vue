@@ -4,24 +4,34 @@
 
 <script>
   import CodeMirror from 'codemirror'
-  import 'codemirror/lib/codemirror.css';
-  import 'codemirror/theme/monokai.css';
-  import 'codemirror/mode/htmlmixed/htmlmixed.js';
+  import 'codemirror/mode/htmlmixed/htmlmixed';
+  import 'codemirror/mode/markdown/markdown'
   export default {
+    name: 'codemirror',
+    props: {
+      mode: {
+        type: String,
+        default: 'text/html'
+      },
+      code: {
+        type: String,
+        default: ''
+      }
+    },
     mounted() {
-      this.value = this.value || '';
+      console.log(this.code);
+      this.value = this.code || '';
       this.editor = CodeMirror.fromTextArea(this.$el, {
-          lineNumbers: true,
-          lineWrapping: false,
-          mode: 'text/html',
-          theme: 'monokai',
-          pollInterval: 1000,
-          viewportMargin: Infinity
-        })
+        lineNumbers: true,
+        lineWrapping: true,
+        mode: this.mode,
+        theme: 'monokai',
+        viewportMargin: Infinity
+      })
 
       this.editor.setValue(this.value)
-      this.editor.on('change', cm => {
-        this.value = cm.getValue();      
+      this.editor.on('blur', cm => {
+        this.value = cm.getValue();
         this.$emit('input', this.value)
       })
       this.$emit('ready', this.editor)

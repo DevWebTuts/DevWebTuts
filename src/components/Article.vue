@@ -51,8 +51,13 @@
                     }
                 },
                 loadingKey: 'loading',
-                result({ data: { article: { body } } }) {
-                    this.$set(this.$data, 'body', body);
+                async result({ data: { article: { body, url } } }) {
+                    try {
+                        let { data } = await axios.get(url);
+                        this.body = data;
+                    } catch (e) {
+                        this.body = body;
+                    }
                 }
             }
         },

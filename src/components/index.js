@@ -14,10 +14,12 @@ let components = {
         'Editor',
         'Callback',
         'Article',
+        'Articles',
         'Start',
     ]),
     CodeMirror
 };
 Vue.component('codemirror', components.CodeMirror);
 Vue.component('editor', components.Editor);
+Vue.component('articles', components.Articles);
 export default components;

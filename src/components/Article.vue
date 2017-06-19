@@ -8,11 +8,7 @@
             v-btn(light icon @click.native="edit = !edit")
                 v-icon {{edit ? 'save' : 'edit'}}
         v-container(fluid)
-            v-layout(row wrap)
-                v-flex(:class="[edit ? 'sm6' : 'sm12']" xs12 v-if="edit")
-                    codemirror(v-model="body", :code="body", mode="text/x-markdown" @input="blur")
-                v-flex(:class="[edit ? 'sm6' : 'sm12']" xs12)
-                    p(v-html="result" style="max-width: 100%;")
+            p(v-html="result" style="max-width: 100%;")
     .layout.row.vh-100-min.ma-0(v-else)
         .m-a
             v-progress-circular(indeterminate, :size="200")

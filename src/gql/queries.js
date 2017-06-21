@@ -6,7 +6,6 @@ export default {
             image
             user {
                 id
-                email
             }
         }
     }`,
@@ -21,7 +20,6 @@ export default {
     user: `query User($email: String!) {
         user: User(email: $email) {
             id
-            email
             image
             firstName
             middleName
@@ -34,8 +32,8 @@ export default {
             firstName
             lastName
             middleName
-            email
             image
+            email
         }    
     }`
 }

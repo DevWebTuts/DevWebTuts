@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import router from './router';
 import gql from './gql';
 import client from './apollo';
+import auth from './auth';
 Vue.use(Vuex);
 
 const state = {
@@ -25,55 +26,37 @@ const actions = {
     }, val) {
         commit("SNACKBAR", val);
     },
-
     async currentUser({
         commit
     }) {
         let {
-            data
+            data: {
+                currentUser
+            }
         } = await client.query({
             query: gql.queries.currentUser
         })
-        if (!data) return;
-        commit('CURRENT_USER', data.currentUser);
+        commit('CURRENT_USER', currentUser);
     },
-    async login({},{email,password}) {
-        let {
-            data
-        } = await client.mutate({
-            mutation: gql.mutations.signInUser,
-            variables: {
-                email,
-                password
-            }
-        })
-        if (!data) return;
-        localStorage.graphCoolToken = data.user.token;
+    login() {
+        auth.show({
+            allowSignUp: false
+        });
+    },
+    logout() {
+        localStorage.removeItem("accessToken")
     },
     async register({
         dispatch
-    }, {
-        email,
-        password,
-        firstName,
-        lastName,
-        middleName
-    }) {
-        await client.mutate({
-            mutation: gql.mutations.createUser,
-            variables: {
-                email,
-                password,
-                firstName,
-                lastName,
-                middleName
-            }
-        })
-        await dispatch('login', {
-            email,
-            password
-        });
-        this.signUp = false;
+    }, variables) {
+        try {
+            let data = await client.mutate({
+                mutation: gql.mutations.createUser,
+                variables
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 
@@ -84,5 +67,41 @@ const store = new Vuex.Store({
     actions
 })
 
+auth.on("authenticated", async authResult => {
+    if (!authResult) return;
+    localStorage.setItem("accessToken", authResult.accessToken);
+    localStorage.setItem("idToken", authResult.idToken);
+    try {
+
+        let res = await client.mutate({
+            mutation: gql.mutations.signInUser,
+            variables: {
+                idToken: authResult.idToken
+            }
+        })
+        localStorage.setItem("userToken", res.data.user.token)
+
+    } catch (e) {
+        auth.getUserInfo(authResult.accessToken, async(error, profile) => {
+            if (error) return;
+            console.log(profile);
+            let variables = {
+                idToken: authResult.idToken,
+                email: profile.email,
+                firstName: profile.given_name,
+                lastName: profile.family_name,
+                middleName: profile.middle_name,
+                image: profile.picture_large
+            }
+
+            let user = await client.mutate({
+                mutation: gql.mutations.createUser,
+                variables
+            })
+            console.log(user);
+        })
+    }
+
+});
 
 export default store;

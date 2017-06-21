@@ -29,8 +29,8 @@ networkInterface.use([{
       req.options.headers = {}
     }
 
-    if (localStorage.graphCoolToken) {
-      req.options.headers.Authorization = `Bearer ${localStorage.graphCoolToken}`;
+    if (localStorage.getItem("userToken")) {
+      req.options.headers.Authorization = `Bearer ${localStorage.getItem("userToken")}`;
 
     }
     next()

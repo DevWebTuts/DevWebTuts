@@ -15,7 +15,6 @@ let components = {
         'Callback',
         'Article',
         'Articles',
-        'Start',
     ]),
     CodeMirror
 };

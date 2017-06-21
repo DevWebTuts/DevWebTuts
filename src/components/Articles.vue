@@ -5,27 +5,36 @@
                 @click="$router.push({name: 'article',params: {id: article.id}})"
                 v-for="(article,index) in articles",
                 :key="index").mb-4
-                v-card(hover height="300px")
-                    img.absolute.box(:src="article.image")
-                    .title.white--text.box.absolute.ov--hover.pa-3.text-xs-center 
-                        .relative {{article.title}}  
+                v-card(hover height="300px").article
+                    img.box.absolute(:src="article.image")
+                    .box.absolute.article--overlay
+                    .absolute.flexbox.box
+                         .m-a 
+                            .title.white--text.text-xs-center {{article.title}}
+
 </template>
 
 <script>
     export default {
         name: 'articles',
-        props: ['articles']
+        props: ['articles'],
+        computed: {
+        }
     }
 </script>
 
-
 <style lang="stylus">
-	.ov--hover
-		transition all 1s
-		line-height 268px
-		font-size 0px
-		&:hover
-			opacity 1
-			font-size 16px
-			background rgba(0,0,0,.5)
+    .article
+        .title, .article--overlay, img
+            transition all .6s
+        .title
+            font-size 0
+        &:hover 
+            img
+                filter blur(5px)
+            .title
+                font-size 24px
+            .article--overlay
+                background rgba(0,0,0,.5)
 </style>
+

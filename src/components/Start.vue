@@ -28,7 +28,6 @@
     import gql from '../gql';
     export default {
         name: 'login',
-        props: ['currentUser'],
         data() {
             return {
                 credentials: {
@@ -70,12 +69,12 @@
             async action() {
                 let { email, password } = this.credentials;
                 if (this.user) {
-                    this.$store.dispatch('login', { email, password });
+                    await this.$store.dispatch('login', { email, password });
                 } else if (this.validEmail) {
                     if (!this.signUp) {
                         this.signUp = true;
                     } else {
-                        this.$store.dispatch('register');
+                        await this.$store.dispatch('register', this.credentials);
                         this.signUp = false;
                     }
                 }

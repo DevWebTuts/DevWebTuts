@@ -57,13 +57,5 @@
                 }
             }
         },
-        methods: {
-            blur(blur) {
-                console.log(blur)
-            }
-        },
-        mounted() {
-
-        }
     }
 </script>

@@ -16,8 +16,8 @@
 
 <script>
     import gql from '../gql';
-    import marked from 'marked';
     import axios from 'axios';
+    import marked from 'marked';
     marked.setOptions({
         highlight(code) {
             return hljs.highlightAuto(code).value;

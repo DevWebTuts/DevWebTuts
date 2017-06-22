@@ -9,22 +9,22 @@ import router from './router';
 import Components from './components';
 import client from './apollo';
 import hljs from 'highlight.js';
-
+import VueParticles from 'vue-particles';
 window.hljs = hljs;
 import './utils';
 
+Vue.use(VueParticles)
 Vue.use(Vuetify);
 Vue.use(VueApollo);
 
 const apolloProvider = new VueApollo({
   defaultClient: client,
 })
-router.beforeEach((to, from, next) => {
-  store.dispatch('currentUser');
+router.beforeEach(async(to, from, next) => {
+  await store.dispatch('currentUser');
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (!localStorage.graphCoolToken || !store.getters.$currentUser) {
+
+    if (!localStorage.userToken || !store.getters.$currentUser) {
       console.log("NOT LOGGED IN");
       next({
         path: '/',

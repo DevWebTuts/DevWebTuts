@@ -16,6 +16,14 @@ const routes = [{
 		props: true,
 	},
 	{
+		path: '/article',
+		component: Components.CreateArticle,
+		name: 'create_article',
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
 		path: '/*',
 		redirect: {
 			name: 'home'

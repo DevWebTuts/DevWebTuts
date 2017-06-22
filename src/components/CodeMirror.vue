@@ -13,14 +13,9 @@
         type: String,
         default: 'text/html'
       },
-      code: {
-        type: String,
-        default: ''
-      }
     },
     mounted() {
-      console.log(this.code);
-      this.value = this.code || '';
+      this.value = this.value || "";
       this.editor = CodeMirror.fromTextArea(this.$el, {
         lineNumbers: true,
         lineWrapping: true,
@@ -28,43 +23,45 @@
         theme: 'monokai',
         viewportMargin: Infinity
       })
-
       this.editor.setValue(this.value)
-      this.editor.on('blur', cm => {
+      this.editor.on('changes', cm => {
         this.value = cm.getValue();
         this.$emit('input', this.value)
       })
-      this.$emit('ready', this.editor)
-      this.unseenLineMarkers()
+      this.editor.on("viewportChange", (cm, from, to) => {
+        this.scroll();
+      });
+      this.editor.on("scroll", (cm, from, to) => {
+        this.scroll();
+      });
+      this.$emit('ready', this.editor);
     },
     beforeDestroy() {
       this.editor.doc.cm.getWrapperElement().remove()
     },
-
+    methods: {
+      scroll() {
+        let scrollInfo = this.editor.getScrollInfo()
+        this.$emit("scrollInfo", scrollInfo);
+      },
+      scrollTo(left, top) {
+        this.editor.scrollTo(left, top);
+      }
+    },
     watch: {
       value(newVal, oldVal) {
-        const value = this.editor.getValue()
+        const value = this.editor.getValue();
         if (newVal !== value) {
-          var scrollInfo = this.editor.getScrollInfo()
-          this.editor.setValue(newVal)
-          this.value = newVal
-          this.editor.scrollTo(scrollInfo.left, scrollInfo.top)
+          let scrollInfo = this.editor.getScrollInfo();
+          this.editor.setValue(newVal);
+          this.value = newVal;
+          this.scrollTo(left, top);
         }
-        this.unseenLineMarkers()
       },
     },
-    methods: {
-      refresh() {
-        this.editor.refresh()
-      },
-      unseenLineMarkers() {
-        if (this.unseenLines !== undefined && this.marker !== undefined) {
-          this.unseenLines.forEach(line => {
-            var info = this.editor.lineInfo(line)
-            this.editor.setGutterMarker(line, "breakpoints")
-          })
-        }
-      }
-    }
   }
 </script>
+
+<<style lang="stylus">
+
+</style>

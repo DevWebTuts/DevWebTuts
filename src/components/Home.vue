@@ -5,9 +5,10 @@
 				v-icon(light) {{$currentUser ? "edit" : "vpn_key"}}
 
 		main.pt-0
-			.flexbox.vh-100-min(style="background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.6)), url('https://www.inovies.com/post-images/blog/trendy-web-design-inovies-8742trendy-web-design.gif') center center / cover no-repeat fixed")
-					.m-a
-						.display-3.white--text.text-xs-center DevWebTuts
+			.flexbox.vh-100-min.relative(style="background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.6)), url('https://www.inovies.com/post-images/blog/trendy-web-design-inovies-8742trendy-web-design.gif') center center / cover no-repeat fixed")
+				vue-particles.absolute.box(color="#dedede")
+				.m-a
+					.display-3.white--text.text-xs-center DevWebTuts
 			.vh-100-min.pb-5
 				hr(v-if="!loading")
 				v-progress-linear(indeterminate v-else)
@@ -50,7 +51,9 @@
 				if (!this.$currentUser) {
 					this.login();
 				} else {
-					alert("CREATE")
+					this.$router.push({
+						name: 'create_article'
+					})
 				}
 			}
 		}

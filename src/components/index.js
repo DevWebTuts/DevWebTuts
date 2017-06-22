@@ -15,10 +15,13 @@ let components = {
         'Callback',
         'Article',
         'Articles',
+        'CreateArticle',
+        'MarkdownEditor'
     ]),
     CodeMirror
 };
 Vue.component('codemirror', components.CodeMirror);
 Vue.component('editor', components.Editor);
+Vue.component('markdown-editor', components.MarkdownEditor);
 Vue.component('articles', components.Articles);
 export default components;

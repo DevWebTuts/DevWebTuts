@@ -10,6 +10,23 @@ import Components from './components';
 import client from './apollo';
 import hljs from 'highlight.js';
 import VueParticles from 'vue-particles';
+import marked from 'marked';
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: true
+});
+
+marked.setOptions({
+  highlight(code) {
+    return hljs.highlightAuto(code).value;
+  }
+});
 window.hljs = hljs;
 import './utils';
 

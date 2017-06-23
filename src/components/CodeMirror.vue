@@ -13,9 +13,12 @@
         type: String,
         default: 'text/html'
       },
+      value: {
+        type: String,
+        default: ''
+      }
     },
     mounted() {
-      this.value = this.value || "";
       this.editor = CodeMirror.fromTextArea(this.$el, {
         lineNumbers: true,
         lineWrapping: true,
@@ -25,8 +28,9 @@
       })
       this.editor.setValue(this.value)
       this.editor.on('changes', cm => {
-        this.value = cm.getValue();
-        this.$emit('input', this.value)
+        let changes = cm.getValue();
+        console.log(changes);
+        this.$emit('input', changes)
       })
       this.editor.on("viewportChange", (cm, from, to) => {
         this.scroll();
@@ -54,7 +58,7 @@
         if (newVal !== value) {
           let scrollInfo = this.editor.getScrollInfo();
           this.editor.setValue(newVal);
-          this.value = newVal;
+          this.$emit('input', newVal)
           this.scrollTo(left, top);
         }
       },

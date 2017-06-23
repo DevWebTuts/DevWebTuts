@@ -12,19 +12,13 @@ v-container(fluid)
 
 <script>
     import marked from 'marked';
-    marked.setOptions({
-        highlight(code) {
-            return hljs.highlightAuto(code).value;
-        }
-    });
+
     export default {
         name: 'editor',
         props: ["mode", "value"],
         computed: {
             result() {
-                return this.mode === 'text/x-markdown'
-                    ? marked(this.value, { sanitize: true, breaks: true })
-                    : this.value;
+                return this.value;
             }
         },
         methods: {

@@ -15,6 +15,17 @@ export default {
             title
             url
             body
+            image
+            createdAt
+            updatedAt
+            user {
+                id
+                email
+                firstName
+                middleName
+                lastName
+                image
+            }
         }
     }`,
     user: `query User($email: String!) {

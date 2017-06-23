@@ -22,5 +22,10 @@ export default {
     image
     body
   }
+}`,
+  saveArticle: `mutation SaveArticle($id: ID!, $body: String, $image: String, $title: String!) {
+  updateOrCreateArticle(update: {id: $id, body: $body, image: $image, title: $title}, create: {body: $body, image: $image, title: $title}) {
+    id
+  }
 }`
 }

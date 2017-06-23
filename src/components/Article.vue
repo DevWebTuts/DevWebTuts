@@ -9,7 +9,7 @@
             v-btn(light floating primary @click.native="edit = !edit" v-if="canEdit" style="align-self: flex-end;")
                 v-icon {{edit ? 'save' : 'edit'}}
         v-slide-y-transition
-            v-layout.accent(style="min-height: calc(100vh - 56px)" row wrap v-if="article.user && !edit").ma-0
+            v-layout.accent(style="min-height: 100vh" row wrap v-if="article.user && !edit").ma-0
                 v-flex(xs12 sm6).pa-0.relative
                     img.box.absolute(:src="article.image")
                     .flexbox.box.absolute.ov

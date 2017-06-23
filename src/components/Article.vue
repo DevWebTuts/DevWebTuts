@@ -1,12 +1,12 @@
 <template lang="pug">
     .vh-100-min(v-if="article && !loading")
-        v-toolbar(light)
-            v-btn(light icon @click.native="$router.back")
+        .fixed.flexbox.box(style="z-index: 999; flex-direction: column; align-items: space-between; justify-content: flex-end;")
+            v-btn(light floating small @click.native="$router.back")
                 v-icon arrow_back
             v-spacer
-            v-btn(light icon @click.native="undoEdit" v-if="edit && canEdit")
+            v-btn(light floating warning @click.native="undoEdit" v-if="edit && canEdit" style="align-self: flex-end;")
                 v-icon undo
-            v-btn(light icon @click.native="edit = !edit" v-if="canEdit")
+            v-btn(light floating primary @click.native="edit = !edit" v-if="canEdit" style="align-self: flex-end;")
                 v-icon {{edit ? 'save' : 'edit'}}
         v-slide-y-transition
             v-layout.accent(style="min-height: calc(100vh - 56px)" row wrap v-if="article.user && !edit").ma-0
@@ -26,8 +26,12 @@
                                 | {{article.user.firstName}}
                                 | {{article.user.middleName}}
                                 | {{article.user.lastName}}
-                            .subheading
-
+                            .text-xs-center
+                                .caption {{article.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+                                small Created At
+                            .text-xs-center
+                                .caption {{article.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+                                small Updated At
         v-layout(row wrap, :class="[edit ? 'hidden-xs-only' : '']").ma-0
             v-flex(xs12, sm6  v-if="edit").pa-0
                 codemirror(v-model="body", mode="text/x-markdown" key="editor")

@@ -10,6 +10,7 @@ import Components from './components';
 import client from './apollo';
 import hljs from 'highlight.js';
 import VueParticles from 'vue-particles';
+import VueMoment from 'vue-moment';
 import marked from 'marked';
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -27,10 +28,11 @@ marked.setOptions({
     return hljs.highlightAuto(code).value;
   }
 });
+
 window.hljs = hljs;
 import './utils';
-
-Vue.use(VueParticles)
+Vue.use(VueMoment);
+Vue.use(VueParticles);
 Vue.use(Vuetify);
 Vue.use(VueApollo);
 

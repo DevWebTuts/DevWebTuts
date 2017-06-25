@@ -6,6 +6,8 @@ export default {
             image
             user {
                 id
+                firstName
+                lastName
             }
         }
     }`,
@@ -13,9 +15,8 @@ export default {
         article: Article(id: $id) {
             id
             title
-            url
-            body
             image
+            body
             createdAt
             updatedAt
             user {
@@ -37,14 +38,24 @@ export default {
             lastName
         }
     }`,
-    currentUser: `{
-        currentUser: user {
-            id
-            firstName
-            lastName
-            middleName
-            image
-            email
-        }    
-    }`
+    currentUser: `query CurrentUser($first: Int, $skip: Int) {
+  currentUser: user {
+    id
+    firstName
+    lastName
+    middleName
+    image
+    email
+    articleCount: _articlesMeta {
+      count
+    }
+    articles(first: $first, skip: $skip)  {
+      id
+      title
+      image
+      createdAt
+      updatedAt
+    }
+  }
+}`
 }

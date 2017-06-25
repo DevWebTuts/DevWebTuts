@@ -1,7 +1,14 @@
 <template lang="pug">
     v-container(fluid) 
         v-layout(row wrap)
-            v-flex(xs12 sm6 md3 lg2
+            v-flex(xs12 sm6 md3 key="add" v-if="add").mb-4
+                v-card(hover height="300px").article
+                    img.box.absolute(src="http://www.mangrol.com/images/products/writing/online-writing/full%20size/online_article.jpeg")
+                    .box.absolute.article--overlay
+                    .absolute.flexbox.box
+                        .m-a
+                            .title.white--text.text-xs-center Create New Article
+            v-flex(xs12 sm6 md3
                 @click="$router.push({name: 'article',params: {id: article.id}})"
                 v-for="(article,index) in articles",
                 :key="index").mb-4
@@ -17,7 +24,7 @@
 <script>
     export default {
         name: 'articles',
-        props: ['articles'],
+        props: ['articles','add'],
         computed: {
         }
     }

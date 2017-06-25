@@ -9,7 +9,7 @@ import router from './router';
 import Components from './components';
 import client from './apollo';
 import hljs from 'highlight.js';
-import VueParticles from 'vue-particles';
+
 import VueMoment from 'vue-moment';
 import marked from 'marked';
 marked.setOptions({
@@ -32,15 +32,13 @@ marked.setOptions({
 window.hljs = hljs;
 import './utils';
 Vue.use(VueMoment);
-Vue.use(VueParticles);
 Vue.use(Vuetify);
 Vue.use(VueApollo);
 
 const apolloProvider = new VueApollo({
   defaultClient: client,
-})
-router.beforeEach(async(to, from, next) => {
-  await store.dispatch('currentUser');
+});
+router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
 
     if (!localStorage.userToken || !store.getters.$currentUser) {

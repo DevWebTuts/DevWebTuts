@@ -16,7 +16,9 @@ let components = {
         'Article',
         'Articles',
         'CreateArticle',
-        'MarkdownEditor'
+        'MarkdownEditor',
+        'CurrentUser',
+        'User'
     ]),
     CodeMirror
 };

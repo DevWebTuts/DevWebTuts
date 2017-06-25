@@ -9,34 +9,19 @@ Vue.use(Vuex);
 const state = {
     snackbar: null,
     emailRegEx: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/,
-    currentUser: null
 };
 const mutations = {
     SNACKBAR: (state, val) => state.snackbar = val,
-    CURRENT_USER: (state, val) => state.currentUser = val,
 };
 const getters = {
     $snackbar: state => state.snackbar,
-    $emailRegEx: state => state.emailRegEx,
-    $currentUser: state => state.currentUser
+    $emailRegEx: state => state.emailRegEx
 };
 const actions = {
     snackbar({
         commit
     }, val) {
         commit("SNACKBAR", val);
-    },
-    async currentUser({
-        commit
-    }) {
-        let {
-            data: {
-                currentUser
-            }
-        } = await client.query({
-            query: gql.queries.currentUser
-        })
-        commit('CURRENT_USER', currentUser);
     },
     login() {
         auth.show({
@@ -65,8 +50,16 @@ const store = new Vuex.Store({
     mutations,
     getters,
     actions
-})
+});
 
+let subCurrentUser = client.watchQuery({
+    query: gql.queries.currentUser,
+}).subscribe(() => ({
+   next(...args) {
+       console.log(args);
+   },
+    completed: (...args) => console.log(args)
+}));
 auth.on("authenticated", async authResult => {
     if (!authResult) return;
     localStorage.setItem("accessToken", authResult.accessToken);
@@ -78,7 +71,7 @@ auth.on("authenticated", async authResult => {
             variables: {
                 idToken: authResult.idToken
             }
-        })
+        });
         localStorage.setItem("userToken", res.data.user.token)
 
     } catch (e) {
@@ -92,12 +85,12 @@ auth.on("authenticated", async authResult => {
                 lastName: profile.family_name,
                 middleName: profile.middle_name,
                 image: profile.picture_large
-            }
+            };
 
             let user = await client.mutate({
                 mutation: gql.mutations.createUser,
                 variables
-            })
+            });
             console.log(user);
         })
     }

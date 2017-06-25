@@ -1,9 +1,6 @@
 <template lang="pug">
     .vh-100-min(v-if="article && !loading")
-        .fixed.flexbox.box(style="z-index: 999; flex-direction: column; align-items: space-between; justify-content: flex-end;")
-            v-btn(light floating small @click.native="$router.back")
-                v-icon arrow_back
-            v-spacer
+        .fixed(style="top: 50%; left: 100%; z-index: 9999")
             v-btn(light floating warning @click.native="undoEdit" v-if="edit && canEdit" style="align-self: flex-end;")
                 v-icon undo
             v-btn(light floating primary @click.native="edit = !edit" v-if="canEdit" style="align-self: flex-end;")
@@ -59,7 +56,7 @@
     import { mapGetters } from 'vuex';
     export default {
         name: 'article',
-        props: ['id'],
+        props: ['id','currentUser'],
         data() {
             return {
                 loading: 0,
@@ -81,11 +78,8 @@
                 return marked(this.body);
             },
             canEdit() {
-                return this.$currentUser && this.article && this.article.user && this.article.user.id === this.$currentUser.id;
+                return this.currentUser && this.article && this.article.user && this.article.user.id === this.currentUser.id;
             },
-            ...mapGetters([
-                '$currentUser'
-            ])
         },
         watch: {
             async edit(val) {
@@ -137,28 +131,5 @@
     .MarkdownEditor
         height calc(100vh - 56px) !important
     
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
 
-@keyframes rollIn {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
-    transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
-  }
-
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-.rollIn {
-  -webkit-animation-name: rollIn;
-  animation-name: rollIn;
-}
 </style>

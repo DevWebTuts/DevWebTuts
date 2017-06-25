@@ -1,18 +1,26 @@
 <template lang="pug">
 	div
-		v-slide-x-transition(mode="out-in"): router-view
+		v-slide-x-transition(mode="out-in"): router-view(:currentUser="currentUser", :userLoading="userLoading")
 		v-snackbar(v-model="toast" v-bind="$snackbar") {{$snackbar ? $snackbar.message : ''}}
 </template>
 
 <script>
+    import gql from '../gql';
 	import { mapGetters } from 'vuex';
 	export default {
 		name: "app",
 		data() {
 			return {
-				toast: false
+				toast: false,
+                userLoading: 0
 			}
 		},
+        apollo: {
+		    currentUser: {
+		        query: gql.queries.currentUser,
+                loadingKey: 'userLoading'
+            }
+        },
 		computed: {
 			...mapGetters([
 				'$snackbar'

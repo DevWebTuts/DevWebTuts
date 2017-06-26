@@ -18,11 +18,19 @@ let components = {
         'CreateArticle',
         'MarkdownEditor',
         'CurrentUser',
-        'User'
+        'User',
+        'Comment',
+        'Comments',
+        'Reply',
+        'Replies'
     ]),
     CodeMirror
 };
 Vue.component('codemirror', components.CodeMirror);
+Vue.component('reply', components.Reply);
+Vue.component('comment', components.Comment);
+Vue.component('replies', components.Replies);
+Vue.component('comments', components.Comments);
 Vue.component('editor', components.Editor);
 Vue.component('markdown-editor', components.MarkdownEditor);
 Vue.component('articles', components.Articles);

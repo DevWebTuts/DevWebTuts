@@ -28,6 +28,27 @@ export default {
                 lastName
                 image
             }
+            comments {
+                id
+                body
+                createdAt
+                user {
+                    id
+                    firstName
+                    image
+                }
+                replies {
+                    id
+                    body
+                    createdAt
+                    user {
+                        id
+                        firstName
+                        image
+                    }
+                }
+            }
+
         }
     }`,
     user: `query User($id: ID!) {

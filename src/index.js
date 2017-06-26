@@ -19,6 +19,7 @@ Vue.use(VueMoment);
 Vue.use(Vuetify);
 Vue.use(VueApollo);
 Vue.use(VueWorker);
+
 const apolloProvider = new VueApollo({
   defaultClient: client,
 });

@@ -13,7 +13,6 @@ marked.setOptions({
 
 marked.setOptions({
     highlight(code) {
-        console.log(code);
         return hljs.highlightAuto(code).value;
     }
 });

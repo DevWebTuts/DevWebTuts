@@ -43,11 +43,21 @@ div
                     v-text-field(label="Image" v-model="article.image")
                     v-btn(primary light block @click.native="$refs.file.click()") Upload
             v-text-field(v-model="article.title" hide-details label="Title" light)
+
         v-layout(row wrap, :class="[edit ? 'hidden-xs-only' : '']").ma-0
             v-flex(xs12, sm6  v-if="edit").pa-0
                 codemirror(v-model="article.body", mode="text/x-markdown" key="editor")
             v-flex(xs12, :class="edit ? 'sm6' : 'sm12'").pa-0
                 v-container(fluid v-html="result" key="preview" v-if="article.body")
+                hr
+                .pa-3
+                    .display-1 Comments
+                    .flexbox(v-if="currentUser")
+                        v-avatar
+                            img(:src="currentUser.image")
+                        v-text-field(hide-details multi-line v-model="comment.body" label="Write a Comment")
+                        v-btn(primary light) Send
+                comments(:comments="article.comments")
         v-tabs(light v-if="edit" grow scroll-bars).hidden-sm-and-up
             v-tabs-bar.accent(slot="activators")
                 v-tabs-item(href="edit") Edit
@@ -57,6 +67,7 @@ div
                 codemirror(v-model="article.body", mode="text/x-markdown" key="editor" v-if="edit")
             v-tabs-content(id="preview")
                 v-container(fluid v-html="result" key="preview")
+        
 </template>
 
 <script>
@@ -83,6 +94,11 @@ div
                     image: ''
                 },
                 result: '',
+                comment: {
+                    id: 0,
+                    body: '',
+                    
+                }
             }
         },
         created() {
@@ -108,11 +124,10 @@ div
                 console.log(e);
             },
             gotoUser() {
-                let name = this.article.user.id === this.currentUser.id ? 'current_user' : 'user';
+                let name = this.currentUser && this.article.user.id === this.currentUser.id ? 'current_user' : 'user';
                 this.$router.push({name, params: {id: this.article.user.id}})
             },
             editArticle() {
-                console.log('test');
                 this.edit = true;
                 this.oldArticle = this.article;
             },
@@ -129,7 +144,6 @@ div
                     }
                 })
                 this.edit = false;
-                console.log(id,data);
                 if(id === 0 && data && data.article) {
                     this.$router.push({name: 'article', params: {id: data.article.id}})
                 }
@@ -137,7 +151,9 @@ div
         },
         computed: {
             canEdit() {
-                return (this.currentUser && this.article) || (this.article.user && this.article.user.id === this.currentUser.id);
+                return this.id ?
+                 this.currentUser && this.article.user && this.article.user.id === this.currentUser.id
+                 : this.currentUser;
             },
         },
         apollo: {
@@ -157,7 +173,6 @@ div
                         title: '',
                         image: ''                       
                     }
-                    console.log(this.article);
                 },
             }
         },

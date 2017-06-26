@@ -24,7 +24,8 @@
         data() {
             return {
                 loading: 0,
-                user: null
+                user: null,
+                search: ''
             }
         },
         apollo: {
@@ -36,9 +37,6 @@
                         id: this.id
                     }
                 },
-                result({data}) {
-                    console.log(data,this.id);
-                }
             }
         }
     }

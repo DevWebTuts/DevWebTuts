@@ -30,13 +30,27 @@ export default {
             }
         }
     }`,
-    user: `query User($email: String!) {
-        user: User(email: $email) {
+    user: `query User($id: ID!) {
+        user: User(id: $id) {
             id
+            email
             image
             firstName
             middleName
             lastName
+            articles {
+                id
+                title
+                image
+                user {
+                    id
+                    email
+                    image
+                    firstName
+                    middleName
+                    lastName
+                }
+            }
         }
     }`,
     currentUser: `query CurrentUser($first: Int, $skip: Int) {

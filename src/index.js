@@ -8,33 +8,17 @@ import router from './router';
 
 import Components from './components';
 import client from './apollo';
-import hljs from 'highlight.js';
 
 import VueMoment from 'vue-moment';
-import marked from 'marked';
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: true,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: true
-});
+import VueWorker from 'vue-worker'
 
-marked.setOptions({
-  highlight(code) {
-    return hljs.highlightAuto(code).value;
-  }
-});
-
-window.hljs = hljs;
 import './utils';
+
+
 Vue.use(VueMoment);
 Vue.use(Vuetify);
 Vue.use(VueApollo);
-
+Vue.use(VueWorker);
 const apolloProvider = new VueApollo({
   defaultClient: client,
 });

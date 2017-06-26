@@ -6,7 +6,7 @@
         template(v-else-if="currentUser")
             .box
                 v-toolbar(light).accent
-                    v-btn(light icon)
+                    v-btn(light icon @click.native="$router.back")
                         v-icon arrow_back
                     v-toolbar-title {{currentUser.firstName}}
                     v-text-field(v-model="search" hide-details label="Search" light)

@@ -18,9 +18,23 @@
         apollo: {
 		    currentUser: {
 		        query: gql.queries.currentUser,
-                loadingKey: 'userLoading'
+                loadingKey: 'userLoading',
+				pollInterval: 1000,
+				fetchPolicy: 'network-only',
+				result: res => console.log(res)
             }
         },
+		created() {
+			window.addEventListener('storage',this.localStorageEvent);
+		},
+		destroyed() {
+			window.removeEventListener('storage',this.localStorageEvent);
+		},
+		methods: {
+			localStorageEvent(event) {
+				console.log(event);
+			}
+		},
 		computed: {
 			...mapGetters([
 				'$snackbar'

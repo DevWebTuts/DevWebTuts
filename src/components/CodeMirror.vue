@@ -29,7 +29,6 @@
       this.editor.setValue(this.value)
       this.editor.on('changes', cm => {
         let changes = cm.getValue();
-        console.log(changes);
         this.$emit('input', changes)
       })
       this.editor.on("viewportChange", (cm, from, to) => {
@@ -59,7 +58,7 @@
           let scrollInfo = this.editor.getScrollInfo();
           this.editor.setValue(newVal);
           this.$emit('input', newVal)
-          this.scrollTo(left, top);
+          this.scrollTo(scrollInfo.left, scrollInfo.top);
         }
       },
     },

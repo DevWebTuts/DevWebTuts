@@ -6,6 +6,7 @@ export default {
             image
             user {
                 id
+                image
                 firstName
                 lastName
             }
@@ -55,6 +56,13 @@ export default {
       image
       createdAt
       updatedAt
+      user {
+          id
+          image
+          firstName
+          middleName
+          lastName
+      }
     }
   }
 }`

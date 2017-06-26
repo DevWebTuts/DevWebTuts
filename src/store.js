@@ -8,14 +8,17 @@ Vue.use(Vuex);
 
 const state = {
     snackbar: null,
+    currentUser: null,
     emailRegEx: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/,
 };
 const mutations = {
     SNACKBAR: (state, val) => state.snackbar = val,
+    CURRENT_USER: (state, val) => state.currentUser = val
 };
 const getters = {
     $snackbar: state => state.snackbar,
-    $emailRegEx: state => state.emailRegEx
+    $emailRegEx: state => state.emailRegEx,
+    $currentUser: state => state.currentUser
 };
 const actions = {
     snackbar({
@@ -29,7 +32,10 @@ const actions = {
         });
     },
     logout() {
-        localStorage.removeItem("accessToken")
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("idToken");
+        localStorage.removeItem("userToken");
+        router.push({name: 'home'})
     },
     async register({
         dispatch
@@ -52,14 +58,6 @@ const store = new Vuex.Store({
     actions
 });
 
-let subCurrentUser = client.watchQuery({
-    query: gql.queries.currentUser,
-}).subscribe(() => ({
-   next(...args) {
-       console.log(args);
-   },
-    completed: (...args) => console.log(args)
-}));
 auth.on("authenticated", async authResult => {
     if (!authResult) return;
     localStorage.setItem("accessToken", authResult.accessToken);

@@ -14,17 +14,8 @@ export default {
     }
   }
 }`,
-  createArticle: `mutation AddArticle($url: String!, $title: String!, $image: String, $body: String) {
-  article: createArticle(url: $url, title: $title, image: $image, body: $body) {
-    url
-    id
-    title
-    image
-    body
-  }
-}`,
-  saveArticle: `mutation SaveArticle($id: ID!, $body: String, $image: String, $title: String!) {
-  updateOrCreateArticle(update: {id: $id, body: $body, image: $image, title: $title}, create: {body: $body, image: $image, title: $title}) {
+  saveArticle: `mutation SaveArticle($id: ID!, $body: String, $image: String, $title: String!,$userId: ID) {
+  article: updateOrCreateArticle(update: {id: $id, body: $body, image: $image, title: $title, userId: $userId}, create: {body: $body, image: $image, title: $title, userId: $userId}) {
     id
   }
 }`

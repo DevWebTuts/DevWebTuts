@@ -17,24 +17,21 @@ const routes = [{
 	},
 	{
 		path: '/article',
-		component: Components.CreateArticle,
+		component: Components.Article,
 		name: 'create_article',
-		meta: {
-			requiresAuth: true
-		}
 	},
-    {
-        path: '/user',
-        component: Components.CurrentUser,
-        name: 'current_user',
-        props: true
-    },
-    {
-        path: '/user/:id',
-        component: Components.User,
-        name: 'user',
-        props: true
-    },
+	{
+		path: '/user',
+		component: Components.CurrentUser,
+		name: 'current_user',
+		props: true
+	},
+	{
+		path: '/user/:id',
+		component: Components.User,
+		name: 'user',
+		props: true
+	},
 	{
 		path: '/*',
 		redirect: {

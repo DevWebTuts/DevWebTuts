@@ -12,7 +12,7 @@
             v-spacer
             v-btn(primary light @click.native="saveReply") Reply
         v-container(fluid)
-            v-text-field(label="Reply" v-model="reply.body" hide-details)
+            v-text-field(label="Reply" v-model="reply.body" hide-details multi-line, :rows="1")
         replies(:replies="comment.replies")  
 </template>
 

@@ -20,8 +20,7 @@
 		        query: gql.queries.currentUser,
                 loadingKey: 'userLoading',
 				pollInterval: 1000,
-				fetchPolicy: 'network-only',
-				result: res => console.log(res)
+				fetchPolicy: 'network-only'
             }
         },
 		created() {

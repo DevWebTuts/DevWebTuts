@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f99579b-36ea-40dd-9be4-900b9e3fe1d1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/CurrentUser.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/User.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/apollo.js" afterPath="$PROJECT_DIR$/src/apollo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/App.vue" afterPath="$PROJECT_DIR$/src/components/App.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Article.vue" afterPath="$PROJECT_DIR$/src/components/Article.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Articles.vue" afterPath="$PROJECT_DIR$/src/components/Articles.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Comments.vue" afterPath="$PROJECT_DIR$/src/components/Comments.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Home.vue" afterPath="$PROJECT_DIR$/src/components/Home.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/app.styl" afterPath="$PROJECT_DIR$/src/components/app.styl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/index.js" afterPath="$PROJECT_DIR$/src/components/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gql/queries.js" afterPath="$PROJECT_DIR$/src/gql/queries.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/router.js" afterPath="$PROJECT_DIR$/src/router.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store.js" afterPath="$PROJECT_DIR$/src/store.js" />
-    </list>
+    <list default="true" id="3f99579b-36ea-40dd-9be4-900b9e3fe1d1" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -63,8 +48,8 @@
       <file leaf-file-name="store.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/store.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="59" column="5" lean-forward="true" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
+            <state relative-caret-position="294">
+              <caret line="52" column="3" lean-forward="true" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -383,16 +368,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1498356455941</updated>
-      <workItem from="1498356458678" duration="13160000" />
+      <workItem from="1498356458678" duration="13847000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13160000" />
+    <option name="totallyTimeSpent" value="13847000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="886" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496474" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -646,8 +630,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/store.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="59" column="5" lean-forward="true" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
+        <state relative-caret-position="294">
+          <caret line="52" column="3" lean-forward="true" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>

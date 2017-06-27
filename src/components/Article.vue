@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+div.pb-5
     input(type="file" hidden ref="file", @change="uploadArticleImage")
     .layout.row.vh-100-min.ma-0(v-if="loading")
         .m-a
@@ -49,15 +49,17 @@ div
                 codemirror(v-model="article.body", mode="text/x-markdown" key="editor")
             v-flex(xs12, :class="edit ? 'sm6' : 'sm12'").pa-0
                 v-container(fluid v-html="result" key="preview" v-if="article.body")
-                hr
-                .pa-3
-                    .display-1 Comments
-                    .flexbox(v-if="currentUser")
-                        v-avatar
-                            img(:src="currentUser.image")
-                        v-text-field(hide-details multi-line v-model="comment.body" label="Write a Comment")
-                        v-btn(primary light) Send
-                comments(:comments="article.comments")
+                template(v-if="!edit")
+                    hr
+                    .pa-3
+                        .display-1 Comments
+                        .flexbox(v-if="currentUser")
+                            v-avatar.pa-3
+                                img(:src="currentUser.image")
+                            v-text-field(hide-details multi-line v-model="comment.body" label="Write a Comment", :rows="1")
+                            v-btn(primary light @click.native="saveComment").mt-3 Send
+                        v-btn(primary block light v-else @click.native="$store.dispatch('login')") Login
+                    comments(:comments="article.comments", :currentUser="currentUser")
         v-tabs(light v-if="edit" grow scroll-bars).hidden-sm-and-up
             v-tabs-bar.accent(slot="activators")
                 v-tabs-item(href="edit") Edit
@@ -97,7 +99,8 @@ div
                 comment: {
                     id: 0,
                     body: '',
-                    
+                    userId: 0,
+                    articleId: 0
                 }
             }
         },
@@ -113,6 +116,16 @@ div
             }
         },
         methods: {
+            async saveComment() {
+                if(!this.currentUser && !this.article && !this.comment.body) return;
+                this.comment.userId = this.currentUser.id;
+                this.comment.articleId = this.article.id
+                let {data} = await this.$apollo.mutate({
+                    mutation: gql.mutations.saveComment,
+                    variables: this.comment
+                })
+                this.comment.body = '';
+            },
             workerEvent({data}) {
                 this.result = data;
             },

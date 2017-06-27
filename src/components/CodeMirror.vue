@@ -64,3 +64,8 @@
     },
   }
 </script>
+
+<style lang="stylus">
+  .CodeMirror
+    height 100% !important
+</style>

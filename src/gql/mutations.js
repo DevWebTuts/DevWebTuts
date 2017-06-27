@@ -18,5 +18,15 @@ export default {
   article: updateOrCreateArticle(update: {id: $id, body: $body, image: $image, title: $title, userId: $userId}, create: {body: $body, image: $image, title: $title, userId: $userId}) {
     id
   }
+}`,
+  saveComment: `mutation SaveComment($id: ID!, $body: String!, $userId: ID!, $articleId: ID!) {
+  comment: updateOrCreateComment(update: {id: $id, body: $body, userId: $userId, articleId: $articleId}, create: {body: $body, userId: $userId, articleId: $articleId}) {
+    id
+  }
+}`,
+  saveReply: `mutation SaveReply($id: ID!, $body: String!, $userId: ID!, $commentId: ID!) {
+  reply: updateOrCreateReply(update: {id: $id, body: $body, userId: $userId, commentId: $commentId}, create: {body: $body, userId: $userId, commentId: $commentId}) {
+    id
+  }
 }`
 }

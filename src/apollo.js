@@ -6,10 +6,9 @@ import {
   addGraphQLSubscriptions
 } from 'subscriptions-transport-ws'
 
-const endpoints = {
-  wss: 'wss://subscriptions.graph.cool/v1/cj3goqcwxeone0162mo673455',
-  https: 'https://api.graph.cool/simple/v1/cj3goqcwxeone0162mo673455'
-};
+import {
+  endpoints
+} from "../config.json";
 
 const wsClient = new SubscriptionClient(endpoints.wss, {
   reconnect: true,
@@ -45,13 +44,13 @@ const client = new ApolloClient({
   networkInterface: networkInterfaceWithSubscriptions,
   dataIdFromObject: o => o.id,
   connectToDevTools: true,
-    customResolvers: {
-      Query: {
-        currentUser(...args) {
-          console.log(args);
-        }
+  customResolvers: {
+    Query: {
+      currentUser(...args) {
+        console.log(args);
       }
     }
+  }
 });
 
 export default client;

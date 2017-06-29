@@ -1,6 +1,6 @@
 <template lang="pug">
 div.pb-5
-    input(type="file" hidden ref="file", @change="uploadArticleImage")
+    //input(type="file" hidden ref="file", @change="uploadArticleImage")
     .layout.row.vh-100-min.ma-0(v-if="loading")
         .m-a
             v-progress-circular(indeterminate, :size="200")
@@ -41,7 +41,7 @@ div.pb-5
                 v-container(fluid)
                     .title.pa-3 Article Image
                     v-text-field(label="Image" v-model="article.image")
-                    v-btn(primary light block @click.native="$refs.file.click()") Upload
+                    //v-btn(primary light block @click.native="$refs.file.click()") Upload
             v-text-field(v-model="article.title" hide-details label="Title" light)
 
         v-layout(row wrap, :class="[edit ? 'hidden-xs-only' : '']").ma-0
@@ -49,7 +49,7 @@ div.pb-5
                 codemirror(v-model="article.body", mode="text/x-markdown" key="editor")
             v-flex(xs12, :class="edit ? 'sm6' : 'sm12'").pa-0
                 v-container(fluid v-html="result" key="preview" v-if="article.body")
-                template(v-if="!edit")
+                template(v-if="!edit && id")
                     hr
                     .pa-3
                         .display-1 Comments
@@ -83,7 +83,7 @@ div.pb-5
 
     export default {
         name: 'article',
-        props: ['id','currentUser'],
+        props: ['id', 'currentUser'],
         data() {
             return {
                 loading: 0,
@@ -105,10 +105,10 @@ div.pb-5
             }
         },
         created() {
-            worker.addEventListener('message',this.workerEvent)
+            worker.addEventListener('message', this.workerEvent)
         },
         destroyed() {
-            worker.removeEventListener('message',this.workerEvent)
+            worker.removeEventListener('message', this.workerEvent)
         },
         watch: {
             ['article.body'](val) {
@@ -117,16 +117,16 @@ div.pb-5
         },
         methods: {
             async saveComment() {
-                if(!this.currentUser && !this.article && !this.comment.body) return;
+                if (!this.currentUser && !this.article && !this.comment.body) return;
                 this.comment.userId = this.currentUser.id;
                 this.comment.articleId = this.article.id
-                let {data} = await this.$apollo.mutate({
+                let { data } = await this.$apollo.mutate({
                     mutation: gql.mutations.saveComment,
                     variables: this.comment
                 })
                 this.comment.body = '';
             },
-            workerEvent({data}) {
+            workerEvent({ data }) {
                 this.result = data;
             },
             undoEdit() {
@@ -138,15 +138,15 @@ div.pb-5
             },
             gotoUser() {
                 let name = this.currentUser && this.article.user.id === this.currentUser.id ? 'current_user' : 'user';
-                this.$router.push({name, params: {id: this.article.user.id}})
+                this.$router.push({ name, params: { id: this.article.user.id } })
             },
             editArticle() {
                 this.edit = true;
                 this.oldArticle = this.article;
             },
             async saveArticle() {
-                let {id,body,title,image,user} = this.article;
-                let {data} = await this.$apollo.mutate({
+                let { id, body, title, image, user } = this.article;
+                let { data } = await this.$apollo.mutate({
                     mutation: gql.mutations.saveArticle,
                     variables: {
                         id,
@@ -157,16 +157,16 @@ div.pb-5
                     }
                 })
                 this.edit = false;
-                if(id === 0 && data && data.article) {
-                    this.$router.push({name: 'article', params: {id: data.article.id}})
+                if (id === 0 && data && data.article) {
+                    this.$router.push({ name: 'article', params: { id: data.article.id } })
                 }
             },
         },
         computed: {
             canEdit() {
                 return this.id ?
-                 this.currentUser && this.article.user && this.article.user.id === this.currentUser.id
-                 : this.currentUser;
+                    this.currentUser && this.article.user && this.article.user.id === this.currentUser.id
+                    : this.currentUser;
             },
         },
         apollo: {
@@ -179,12 +179,12 @@ div.pb-5
                 },
                 pollInterval: 1000,
                 loadingKey: 'loading',
-                result({data: {article}}) {
-                    this.article = article ? {...article} : {
+                result({ data: { article } }) {
+                    this.article = article ? { ...article } : {
                         id: 0,
                         body: '',
                         title: '',
-                        image: ''                       
+                        image: ''
                     }
                 },
             }

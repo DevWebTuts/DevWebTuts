@@ -5,35 +5,25 @@
 </template>
 
 <script>
-    import gql from '../gql';
+	import gql from '../gql';
 	import { mapGetters } from 'vuex';
 	export default {
 		name: "app",
 		data() {
 			return {
 				toast: false,
-                userLoading: 0
+				userLoading: 0
 			}
 		},
-        apollo: {
-		    currentUser: {
-		        query: gql.queries.currentUser,
-                loadingKey: 'userLoading',
-				pollInterval: 1000,
-				fetchPolicy: 'network-only'
-            }
-        },
-		created() {
-			window.addEventListener('storage',this.localStorageEvent);
-		},
-		destroyed() {
-			window.removeEventListener('storage',this.localStorageEvent);
-		},
-		methods: {
-			localStorageEvent(event) {
-				console.log(event);
+		apollo: {
+			currentUser: {
+				query: gql.queries.currentUser,
+				loadingKey: 'userLoading',
+				fetchPolicy: 'network-only',
+				pollInterval: 2000
 			}
 		},
+
 		computed: {
 			...mapGetters([
 				'$snackbar'

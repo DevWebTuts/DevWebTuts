@@ -10,6 +10,7 @@ export default {
                 firstName
                 lastName
             }
+            createdAt
         }
     }`,
     article: `query Article($id: ID!) {

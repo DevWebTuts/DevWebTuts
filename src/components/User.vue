@@ -4,15 +4,10 @@
             .m-a
                 v-progress-circular(indeterminate, :size="100")
         template(v-else-if="user")
-            .box
-                v-toolbar(light).accent
-                    v-btn(light icon @click.native="$router.back")
-                        v-icon arrow_back
-                    v-toolbar-title {{user.firstName}}
-                    v-text-field(v-model="search" hide-details label="Search" light)
-                    v-btn(light icon @click.native="$store.dispatch('logout')")
-                        v-icon exit_to_app
-                .display-3.pa-3 Articles
+            .box(style="padding-top: 48px;")
+                .pa-3
+                    .display-3.accent--text Articles
+                    .title {{user.firstName}}
                 articles(:articles="user.articles" add)
 </template>
 

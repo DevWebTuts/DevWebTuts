@@ -10,7 +10,7 @@
             p {{comment.body}}
         v-subheader Replies
             v-spacer
-            v-btn(primary light @click.native="saveReply" v-if="currentUser") Reply
+            v-btn(primary @click.native="saveReply" v-if="currentUser") Reply
         v-container(fluid v-if="currentUser")
             v-text-field(label="Reply" v-model="reply.body" hide-details multi-line, :rows="1")
         replies(:replies="comment.replies")  

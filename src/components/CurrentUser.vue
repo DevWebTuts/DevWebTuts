@@ -1,22 +1,14 @@
 <template lang="pug">
-    .flexbox.vh-100-min
+    .flexbox.vh-100-min.pt-5
         template(v-if="userLoading")
             .m-a
                 v-progress-circular(indeterminate, :size="100")
         template(v-else-if="currentUser")
             .box
-                v-toolbar(light).accent
-                    v-btn(light icon @click.native="$router.back")
-                        v-icon arrow_back
-                    v-toolbar-title {{currentUser.firstName}}
-                    v-text-field(v-model="search" hide-details label="Search" light)
-                    v-btn(light icon @click.native="$store.dispatch('logout')")
-                        v-icon exit_to_app
-                .display-3.pa-3 Articles
-                articles(:articles="currentUser.articles" add)
-        template(v-else)
-            .m-a
-                .display-1.text-xs-center.primary--text You're Not Authenticated
+                .pa-3
+                    .display-3.accent--text Articles
+                    .title {{currentUser.firstName}}
+                articles(:articles="currentUser.articles")
 </template>
 
 <script>

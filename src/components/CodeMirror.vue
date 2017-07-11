@@ -6,6 +6,7 @@
   import CodeMirror from 'codemirror'
   import 'codemirror/mode/htmlmixed/htmlmixed';
   import 'codemirror/mode/markdown/markdown'
+  window.cmm = CodeMirror;
   export default {
     name: 'codemirror',
     props: {
@@ -16,9 +17,11 @@
       value: {
         type: String,
         default: ''
-      }
+      },
     },
+
     mounted() {
+      CodeMirror.commands.save = () => this.$emit('save');
       this.editor = CodeMirror.fromTextArea(this.$el, {
         lineNumbers: true,
         lineWrapping: true,
@@ -29,7 +32,7 @@
       this.editor.setValue(this.value)
       this.editor.on('changes', cm => {
         let changes = cm.getValue();
-        this.$emit('input', changes)
+        this.$emit('input', changes);
       })
       this.editor.on("viewportChange", (cm, from, to) => {
         this.scroll();
@@ -40,7 +43,8 @@
       this.$emit('ready', this.editor);
     },
     beforeDestroy() {
-      this.editor.doc.cm.getWrapperElement().remove()
+      this.editor.doc.cm.getWrapperElement().remove();
+      CodeMirror.commands.save = null;
     },
     methods: {
       scroll() {

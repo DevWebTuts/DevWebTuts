@@ -1,52 +1,23 @@
 <template lang="pug">
 div.pb-5
-    //input(type="file" hidden ref="file", @change="uploadArticleImage")
     .layout.row.vh-100-min.ma-0(v-if="loading")
         .m-a
-            v-progress-circular(indeterminate, :size="200")
-    .vh-100-min(v-else-if="article && !loading")
-        .fixed(style="top: 88%; right: 2%; z-index: 9999")
-            v-btn(light floating warning @click.native="undoEdit" v-if="edit && canEdit" style="align-self: flex-end;")
-                v-icon(light) undo
-            v-btn(light floating primary @click.native="edit ? saveArticle() : editArticle()" v-if="canEdit" style="align-self: flex-end;")
-                v-icon(light) {{edit ? 'save' : 'edit'}}
-        v-slide-y-transition
-            v-layout.vh-100-min.ma-0(row wrap v-if="article.user && !edit")
-                v-flex(xs12 sm6).pa-0.relative
-                    img.box.absolute(:src="article.image")
-                    .flexbox.box.absolute.ov
-                        .m-a.text-xs-center.white--text
-                            .display-1 {{article.title}}
-                v-flex.pa-0(xs12 sm6).accent
-                    .flexbox.box
-                        .m-a.text-xs-center.white--text
-                            transition(appear appearActiveClass="animated rollIn")
-                                img.article--user(:src="article.user.image" key="userImage" @click="gotoUser")
-                            .title.mt-2
-                                | {{article.user.firstName}}
-                                | {{article.user.middleName}}
-                                | {{article.user.lastName}}
-                            .text-xs-center
-                                .caption {{article.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
-                                small Created At
-                            .text-xs-center
-                                .caption {{article.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
-                                small Updated At
-            .vh-100-min.flexbox(v-else-if="!edit")
-                .m-a
-                    .display-2.text-xs-center Create New Article
+            v-progress-circular(indeterminate, :size="200").accent--text
+    .vh-100-min(v-else-if="article && !loading", style="padding-top: 48px;")
+        v-btn(fab primary dark fixed bottom right 
+        @click.native="edit ? saveArticle() : editArticle()" v-if="canEdit" style="z-index: 999")
+            v-icon {{edit ? 'save' : 'edit'}}
         v-container(fluid v-if="edit").accent.flexbox
             v-menu(offset-y, :close-on-content-click="false")
                 img(slot="activator", :src="article.image" style="height: 100px; width: 100px; cursor: pointer;").mr-4
                 v-container(fluid)
                     .title.pa-3 Article Image
                     v-text-field(label="Image" v-model="article.image")
-                    //v-btn(primary light block @click.native="$refs.file.click()") Upload
-            v-text-field(v-model="article.title" hide-details label="Title" light)
+            v-text-field(v-model="article.title" hide-details dark label="Title")
 
-        v-layout(row wrap, :class="[edit ? 'hidden-xs-only' : '']").ma-0
+        v-layout(row wrap).ma-0
             v-flex(xs12, sm6  v-if="edit").pa-0
-                codemirror(v-model="article.body", mode="text/x-markdown" key="editor")
+                codemirror(v-model="article.body", mode="text/x-markdown" key="editor", @save="saveArticle", @input="autoSave ? saveArticle() : ''")
             v-flex(xs12, :class="edit ? 'sm6' : 'sm12'").pa-0
                 v-container(fluid v-html="result" key="preview" v-if="article.body")
                 template(v-if="!edit && id")
@@ -57,18 +28,9 @@ div.pb-5
                             v-avatar.pa-3
                                 img(:src="currentUser.image")
                             v-text-field(hide-details multi-line v-model="comment.body" label="Write a Comment", :rows="1")
-                            v-btn(primary light @click.native="saveComment").mt-3 Send
-                        v-btn(primary block light v-else @click.native="$store.dispatch('login')") Login
+                            v-btn(primary @click.native="saveComment").mt-3 Send
+                        v-btn(primary block v-else @click.native="$store.dispatch('login')") Login
                     comments(:comments="article.comments", :currentUser="currentUser")
-        v-tabs(light v-if="edit" grow scroll-bars).hidden-sm-and-up
-            v-tabs-bar.accent(slot="activators")
-                v-tabs-item(href="edit") Edit
-                v-tabs-item(href="preview") Preview
-                v-tabs-slider.primary
-            v-tabs-content(id="edit")
-                codemirror(v-model="article.body", mode="text/x-markdown" key="editor" v-if="edit")
-            v-tabs-content(id="preview")
-                v-container(fluid v-html="result" key="preview")
         
 </template>
 
@@ -83,7 +45,7 @@ div.pb-5
 
     export default {
         name: 'article',
-        props: ['id', 'currentUser'],
+        props: ['id', 'currentUser', 'autoSave'],
         data() {
             return {
                 loading: 0,
@@ -91,8 +53,8 @@ div.pb-5
                 oldArticle: null,
                 article: {
                     id: 0,
-                    body: '',
-                    title: '',
+                    body: '# Markdown Syntax',
+                    title: 'Create New Article',
                     image: ''
                 },
                 result: '',
@@ -101,7 +63,7 @@ div.pb-5
                     body: '',
                     userId: 0,
                     articleId: 0
-                }
+                },
             }
         },
         created() {
@@ -109,6 +71,9 @@ div.pb-5
         },
         destroyed() {
             worker.removeEventListener('message', this.workerEvent)
+        },
+        mounted() {
+            this.edit = this.id === undefined;
         },
         watch: {
             ['article.body'](val) {
@@ -156,7 +121,7 @@ div.pb-5
                         userId: user ? user.id : this.currentUser ? this.currentUser.id : 0
                     }
                 })
-                this.edit = false;
+                this.edit = this.autoSave;
                 if (id === 0 && data && data.article) {
                     this.$router.push({ name: 'article', params: { id: data.article.id } })
                 }
@@ -182,8 +147,8 @@ div.pb-5
                 result({ data: { article } }) {
                     this.article = article ? { ...article } : {
                         id: 0,
-                        body: '',
-                        title: '',
+                        body: '# Markdown Syntax',
+                        title: 'Create New Article',
                         image: ''
                     }
                 },

@@ -17,7 +17,7 @@ const routes = [{
 	},
 	{
 		path: '/article',
-		component: Components.Article,
+		component: Components.CreateArticle,
 		name: 'create_article',
 	},
 	{

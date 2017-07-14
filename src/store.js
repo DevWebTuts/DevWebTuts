@@ -8,8 +8,6 @@ Vue.use(Vuex);
 
 const state = {
     snackbar: null,
-    currentUser: null,
-    emailRegEx: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/,
 };
 const mutations = {
     SNACKBAR: (state, val) => state.snackbar = val,
@@ -17,8 +15,6 @@ const mutations = {
 };
 const getters = {
     $snackbar: state => state.snackbar,
-    $emailRegEx: state => state.emailRegEx,
-    $currentUser: state => state.currentUser
 };
 const actions = {
     snackbar({
@@ -46,7 +42,7 @@ const actions = {
                 variables
             })
         } catch (error) {
-            console.log(error);
+
         }
     }
 };
@@ -75,7 +71,6 @@ auth.on("authenticated", async authResult => {
     } catch (e) {
         auth.getUserInfo(authResult.accessToken, async(error, profile) => {
             if (error) return;
-            console.log(profile);
             let variables = {
                 idToken: authResult.idToken,
                 email: profile.email,
@@ -89,7 +84,6 @@ auth.on("authenticated", async authResult => {
                 mutation: gql.mutations.createUser,
                 variables
             });
-            console.log(user);
         })
     }
 

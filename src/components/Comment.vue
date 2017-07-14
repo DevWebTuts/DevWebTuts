@@ -1,50 +1,21 @@
 <template lang="pug">
-    v-card
-        v-card-title.primary.white--text
-            v-avatar
-                img(:src="comment.user.image")
-            .px-3 
-                | {{comment.user.firstName}}
-                .caption {{comment.createdAt | moment("from")}}
-        v-card-text
-            p {{comment.body}}
-        v-subheader Replies
-            v-spacer
-            v-btn(primary @click.native="saveReply" v-if="currentUser") Reply
-        v-container(fluid v-if="currentUser")
-            v-text-field(label="Reply" v-model="reply.body" hide-details multi-line, :rows="1")
-        replies(:replies="comment.replies")  
+    v-card(flat)
+        v-card-title(primary-title).accent.white--text.pa-2
+            .flexbox
+                v-avatar.pr-3
+                    img.pointer(:src="comment.user.image", @click="$router.push({name: 'user',params: {id: comment.user.id}})")
+                .text-xs-left
+                    .subheading {{comment.user.firstName}}
+                    .caption.grey--text {{comment.createdAt | moment("from")}}
+        v-card-text {{comment.body}}
+        hr
+        replies(:replies="comment.replies", :comment="comment.id")
+
 </template>
 
 <script>
-    import gql from '../gql';
-
     export default {
         name: 'comment',
-        props: ['comment', 'currentUser'],
-        data() {
-            return {
-                reply: {
-                    id: 0,
-                    body: '',
-                    userId: 0,
-                    commentId: 0
-                }
-            }
-        },
-        methods: {
-            async saveReply() {
-                if (!this.currentUser && !this.comment && !this.reply.body) return;
-                console.log(this.currentUser, this.comment);
-                this.reply.userId = this.currentUser.id;
-                this.reply.commentId = this.comment.id
-                console.log(this.reply);
-                let { data } = await this.$apollo.mutate({
-                    mutation: gql.mutations.saveReply,
-                    variables: this.reply
-                })
-                this.reply.body = '';
-            },
-        }
+        props: ['comment'],
     }
 </script>

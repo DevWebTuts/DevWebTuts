@@ -1,6 +1,6 @@
 export default {
-    articles: `{
-        articles: allArticles {
+    articles: `query Articles($first: Int, $skip: Int) {
+        articles: allArticles(first: $first, skip: $skip) {
             id
             title
             image
@@ -52,7 +52,7 @@ export default {
 
         }
     }`,
-    user: `query User($id: ID!) {
+    user: `query User($id: ID!, $first: Int, $skip: Int) {
         user: User(id: $id) {
             id
             email
@@ -60,13 +60,17 @@ export default {
             firstName
             middleName
             lastName
-            articles {
+            articleCount: _articlesMeta(first: $first, skip: $skip) {
+                count
+            }
+            articles(first: $first, skip: $skip) {
                 id
                 title
                 image
+                createdAt
+                updatedAt
                 user {
                     id
-                    email
                     image
                     firstName
                     middleName
@@ -83,10 +87,12 @@ export default {
     middleName
     image
     email
-    articleCount: _articlesMeta {
+    createdAt
+    updatedAt
+    articleCount: _articlesMeta(first: $first, skip: $skip) {
       count
     }
-    articles(first: $first, skip: $skip)  {
+    articles(first: $first, skip: $skip) {
       id
       title
       image

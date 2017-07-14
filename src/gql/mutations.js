@@ -14,19 +14,24 @@ export default {
     }
   }
 }`,
-  saveArticle: `mutation SaveArticle($id: ID!, $body: String, $image: String, $title: String!,$userId: ID) {
-  article: updateOrCreateArticle(update: {id: $id, body: $body, image: $image, title: $title, userId: $userId}, create: {body: $body, image: $image, title: $title, userId: $userId}) {
-    id
-  }
-}`,
-  saveComment: `mutation SaveComment($id: ID!, $body: String!, $userId: ID!, $articleId: ID!) {
-  comment: updateOrCreateComment(update: {id: $id, body: $body, userId: $userId, articleId: $articleId}, create: {body: $body, userId: $userId, articleId: $articleId}) {
-    id
-  }
-}`,
-  saveReply: `mutation SaveReply($id: ID!, $body: String!, $userId: ID!, $commentId: ID!) {
-  reply: updateOrCreateReply(update: {id: $id, body: $body, userId: $userId, commentId: $commentId}, create: {body: $body, userId: $userId, commentId: $commentId}) {
-    id
-  }
-}`
+  updateArticle: `mutation UpdateArticle($id: ID!, $body: String, $image: String, $title: String!,$userId: ID) {
+    article: updateArticle(id: $id, body: $body, image: $image, title: $title, userId: $userId) {
+      id
+    }
+  }`,
+  createArticle: `mutation CreateArticle($body: String, $image: String, $title: String!,$userId: ID) {
+    article: createArticle(body: $body, image: $image, title: $title, userId: $userId) {
+      id
+    }
+  }`,
+  createComment: `mutation CreateComment($body: String!, $userId: ID!, $articleId: ID!) {
+    comment: createComment(body: $body, userId: $userId, articleId: $articleId) {
+      id
+    }
+  }`,
+  createReply: `mutation CreateReply($body: String!, $userId: ID!, $commentId: ID!) {
+    reply: createReply(body: $body, userId: $userId, commentId: $commentId) {
+      id
+    }
+  }`
 }

@@ -6,7 +6,7 @@
         template(v-else-if="user")
             .box(style="padding-top: 48px;")
                 .pa-3
-                    .display-3.accent--text Articles
+                    .display-3.accent--text Articles ({{user.articleCount.count}})
                     .title {{user.firstName}}
                 articles(:articles="user.articles" add)
 </template>
@@ -21,6 +21,11 @@
                 loading: 0,
                 user: null,
                 search: ''
+            }
+        },
+        metaInfo() {
+            return {
+                title: user ? user.firstName : 'DevWebTuts'
             }
         },
         apollo: {

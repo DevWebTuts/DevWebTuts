@@ -22,7 +22,8 @@ let components = {
         'Comment',
         'Comments',
         'Reply',
-        'Replies'
+        'Replies',
+        'CreateArticle'
     ]),
     CodeMirror
 };

@@ -1,13 +1,13 @@
 <template lang="pug">
-    v-card
-        v-card-title.accent.white--text
-            v-avatar
-                img(:src="reply.user.image")
-            .px-3 
-                | {{reply.user.firstName}}
-                .caption {{reply.createdAt | moment("from")}}
-        v-card-text
-            p {{reply.body}}
+    v-card(flat)
+        v-card-title(primary-title).primary.white--text.pa-1
+            .flexbox
+                v-avatar.pr-3
+                    img.pointer(:src="reply.user.image", @click="$router.push({name: 'user',params: {id: reply.user.id}})")
+                .text-xs-left
+                    .subheading {{reply.user.firstName}}
+                    .caption.grey--text.text--lighten-3 {{reply.createdAt | moment("from")}}
+        v-card-text {{reply.body}}
 </template>
 
 <script>

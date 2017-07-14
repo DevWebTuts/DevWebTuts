@@ -10,15 +10,14 @@ import Components from './components';
 import client from './apollo';
 
 import VueMoment from 'vue-moment';
-import VueWorker from 'vue-worker'
-
+import VueMeta from 'vue-meta';
 import './utils';
 
 
 Vue.use(VueMoment);
 Vue.use(Vuetify);
 Vue.use(VueApollo);
-Vue.use(VueWorker);
+Vue.use(VueMeta);
 
 const apolloProvider = new VueApollo({
   defaultClient: client,

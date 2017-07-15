@@ -8,8 +8,9 @@
             v-container(fluid v-if="edit" style="padding-top: 64px;").accent.flexbox
                 v-menu(offset-y, :close-on-content-click="false")
                     img(slot="activator", :src="article.image" style="height: 100px; width: 100px; cursor: pointer;").mr-4
+                    .pa-2.primary
+                        .title.white--text Article Image
                     v-container(fluid)
-                        .title.pa-3 Article Image
                         v-text-field(label="Image" v-model="article.image")
                 v-text-field(v-model="article.title" hide-details dark label="Title")
             v-btn(fab primary bottom right fixed dark @click.native="updateArticle")
@@ -27,6 +28,14 @@
                     .caption.grey--text.text--lighten-3 Updated {{article.updatedAt | moment("from")}}
                     v-btn(primary v-if="canEdit" @click.native="editArticle") Edit
                     v-btn(info @click.native="shareArticle") Share
+                    v-menu(:close-on-content-click="false", offset-y)
+                        v-btn(slot="activator" error v-if="canEdit") Delete
+                        .pa-2.error
+                            .title.white--text Delete Article
+                        v-container(fluid)
+                            v-text-field(v-model="deleteVerification" label="Article Title" hide-details)
+                            v-btn(block error @click.native="deleteArticle", :disabled="deleteVerification !== article.title") Delete
+
         v-layout(row wrap).ma-0
             v-flex(xs12, sm6 v-if="edit").pa-0
                 code-mirror(v-model="article.body", mode="text/x-markdown" key="editor", @save="updateArticle")
@@ -92,7 +101,8 @@
                     body: '',
                     image: '',
                 },
-                oldArticle: null
+                oldArticle: null,
+                deleteVerification: ''
             }
         },
         created() {
@@ -124,6 +134,19 @@
             },
             shareArticle() {
                 window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(document.location.href)}`)
+            },
+            async deleteArticle() {
+                if(this.deleteVerification !== this.article.title) return;
+                let {id} = this.article;
+                let {data} = await this.$apollo.mutate({
+                    mutation: gql.mutations.deleteArticle,
+                    variables: {
+                        id
+                    }
+                })
+                if(!data) return;
+                this.deleteVerification = '';
+                this.$router.push({name: 'current_user'});
             },
             async updateArticle() {
                 let { id, body, title, image, user } = this.article;

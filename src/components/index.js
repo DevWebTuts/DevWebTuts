@@ -9,8 +9,7 @@ let registerComponents = (components, namespace = '') => Object.keys(components)
 let components = {
     App,
     ...asyncComponents([
-        'Home',
-        'HTML',
+        'Index',
         'CodeEditor',
         'Article',
         'Articles',

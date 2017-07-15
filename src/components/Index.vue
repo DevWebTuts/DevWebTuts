@@ -20,7 +20,7 @@
     import { mapActions } from 'vuex';
 
     export default {
-        name: 'home',
+        name: 'index',
         inject: ['drawer', 'auth'],
         metaInfo() {
             return {

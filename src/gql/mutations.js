@@ -14,6 +14,11 @@ export default {
     }
   }
 }`,
+  deleteArticle: `mutation DeleteArticle($id: ID!) {
+    article: deleteArticle(id: $id) {
+      id
+    }
+  }`,
   updateArticle: `mutation UpdateArticle($id: ID!, $body: String, $image: String, $title: String!,$userId: ID) {
     article: updateArticle(id: $id, body: $body, image: $image, title: $title, userId: $userId) {
       id

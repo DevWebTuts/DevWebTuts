@@ -5,8 +5,14 @@
 <script>
   import CodeMirror from 'codemirror'
   import 'codemirror/mode/htmlmixed/htmlmixed';
-  import 'codemirror/mode/markdown/markdown'
-  window.cmm = CodeMirror;
+  import 'codemirror/mode/gfm/gfm';
+  import 'codemirror/addon/selection/active-line';
+  import 'codemirror/addon/hint/show-hint';
+  import 'codemirror/addon/hint/html-hint';
+  import 'codemirror/addon/hint/css-hint';
+  import 'codemirror/addon/hint/javascript-hint';
+  import 'codemirror/addon/edit/closetag';
+
   export default {
     name: 'codemirror',
     props: {
@@ -22,54 +28,30 @@
 
     mounted() {
       CodeMirror.commands.save = () => this.$emit('save');
+
       this.editor = CodeMirror.fromTextArea(this.$el, {
-        lineNumbers: true,
         lineWrapping: true,
+        autoCloseTags: true,
+        autofocus: true,
         mode: this.mode,
-        theme: 'monokai',
-        viewportMargin: Infinity
+        theme: 'one-dark',
+        viewportMargin: Infinity,
+        extraKeys: {
+          "Ctrl-Space": "autocomplete"
+        },
+        pollInterval: 2000 
       })
-      this.editor.setValue(this.value)
+
+      this.editor.setValue(this.value);
+      
       this.editor.on('changes', cm => {
-        let changes = cm.getValue();
-        this.$emit('input', changes);
+        this.$emit('input', cm.getValue());
       })
-      this.editor.on("viewportChange", (cm, from, to) => {
-        this.scroll();
-      });
-      this.editor.on("scroll", (cm, from, to) => {
-        this.scroll();
-      });
-      this.$emit('ready', this.editor);
     },
+
     beforeDestroy() {
       this.editor.doc.cm.getWrapperElement().remove();
       CodeMirror.commands.save = null;
     },
-    methods: {
-      scroll() {
-        let scrollInfo = this.editor.getScrollInfo()
-        this.$emit("scrollInfo", scrollInfo);
-      },
-      scrollTo(left, top) {
-        this.editor.scrollTo(left, top);
-      }
-    },
-    watch: {
-      value(newVal, oldVal) {
-        const value = this.editor.getValue();
-        if (newVal !== value) {
-          let scrollInfo = this.editor.getScrollInfo();
-          this.editor.setValue(newVal);
-          this.$emit('input', newVal)
-          this.scrollTo(scrollInfo.left, scrollInfo.top);
-        }
-      },
-    },
   }
 </script>
-
-<style lang="stylus">
-  .CodeMirror
-    height 100% !important
-</style>

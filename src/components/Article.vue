@@ -13,7 +13,7 @@
                     v-container(fluid)
                         v-text-field(label="Image" v-model="article.image")
                 v-text-field(v-model="article.title" hide-details dark label="Title")
-            v-btn(fab primary bottom right fixed dark @click.native="updateArticle")
+            v-btn(fab primary bottom right fixed dark @click.native="updateArticle" style="z-index: 9999")
                 v-icon save
             v-btn(block warning @click.native="undoEdit").ma-0 Undo
         .accent.relative(style="height: 100vh;" v-else)
@@ -38,7 +38,7 @@
 
         v-layout(row wrap).ma-0
             v-flex(xs12, sm6 v-if="edit").pa-0
-                code-mirror(v-model="article.body", mode="text/x-markdown" key="editor", @save="updateArticle")
+                code-mirror.markdown--editor(v-model="article.body", mode="text/x-gfm" key="editor", @save="updateArticle")
             v-flex(xs12, :class="edit ? 'sm6' : 'sm12'").pa-0
                 v-container(fluid v-html="result" key="preview" v-if="article.body").pa-2
                 comments(v-if="!edit", :comments="article.comments", :article="article.id")
@@ -125,11 +125,11 @@
                 this.result = data;
             },
             editArticle() {
-                this.oldArticle = this.article;
+                this.oldArticle = {...this.article};
                 this.edit = true;
             },
             undoEdit() {
-                this.article = this.oldArticle;
+                this.article = {...this.oldArticle};
                 this.edit = false;
             },
             shareArticle() {
@@ -187,3 +187,9 @@
         },
     }
 </script>
+
+<style lang="stylus">
+    .markdown--editor + .CodeMirror
+        min-height 100%
+        height 100% !important
+</style>

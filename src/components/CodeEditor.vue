@@ -1,11 +1,11 @@
 <template lang="pug">
-v-container(fluid).pa-2
-    v-layout(row wrap)
-        v-flex(xs12 sm6)
+v-container(fluid).pa-0
+    v-layout(row wrap).ma-0
+        v-flex(xs12 sm6).pa-0
             code-mirror.CodeEditorDialog(v-model="code")
-        v-flex(xs12 sm6)
+        v-flex(xs12 sm6).pa-0
             iframe(:srcdoc="result", sandbox="allow-scripts allow-same-origin", 
-            style="border: solid 2px; max-height: calc(100vh - 140px); height: calc(100vh - 140px);", 
+            style="border: solid 2px; height: 100%;", 
             frameborder="0" ref="preview" scrolling="auto")
 </template>
 

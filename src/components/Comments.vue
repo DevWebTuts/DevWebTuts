@@ -9,7 +9,8 @@
             v-spacer
             v-btn(primary fab small dark @click.native="createComment")
                 v-icon send
-        v-text-field(hide-details multi-line v-model="body" label="Write a Comment", :rows="1")
+        v-text-field(hide-details multi-line v-model="body" label="Write a Comment", :rows="1", v-if="auth.currentUser")
+        v-btn(block primary v-else @click.native="$store.dispatch('login')") Login
         comment(:comment="c", :key="index", v-for="(c,index) in comments")  
 </template>
 

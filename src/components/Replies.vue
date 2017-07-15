@@ -10,7 +10,7 @@
                 v-spacer
                 v-btn(primary fab small dark @click.native="createReply")
                     v-icon send
-            v-text-field(hide-details multi-line v-model="body" label="Write a Reply", :rows="1")
+            v-text-field(hide-details multi-line v-model="body" label="Write a Reply", :rows="1", v-if="auth.currentUser")
             reply(:reply="r", :key="index", v-for="(r,index) in replies")  
 </template>
 

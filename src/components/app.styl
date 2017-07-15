@@ -13,9 +13,10 @@ $theme = {
 @import url("//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic");
 @import url("//fonts.googleapis.com/icon?family=Material+Icons");
 
-@require '../../node_modules/highlight.js/styles/vs2015.css';
+@require '../../node_modules/highlight.js/styles/atom-one-dark.css';
 @require '../../node_modules/codemirror/lib/codemirror.css';
-@require '../../node_modules/codemirror/theme/monokai.css';
+@require './atom-one-dark.css';
+@require '../../node_modules/codemirror/addon/hint/show-hint.css';
 
 @require '../../node_modules/vuetify/src/stylus/main';
 
@@ -133,5 +134,5 @@ img
 	background: alpha($theme.primary,0.8) !important
 
 .CodeEditorDialog + .CodeMirror
-	max-height calc(100vh - 140px) !important
-	height calc(100vh - 140px) !important
+	max-height calc(100vh - 70px) !important
+	height calc(100vh - 70px) !important

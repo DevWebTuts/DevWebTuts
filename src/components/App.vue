@@ -3,12 +3,12 @@
 		v-snackbar(v-model="toast" v-bind="$snackbar") {{$snackbar ? $snackbar.message : ''}}
 		v-dialog(fullscreen v-model="dialogCodeEditor")
 			v-card
-				v-card-title.primary
+				v-card-title.primary.pa-2
 					.headline.white--text Code Editor
 					v-spacer
 					v-btn(icon dark @click.native="dialogCodeEditor = false")
 						v-icon close
-				v-card-text
+				v-card-text.pa-0
 					code-editor
 		v-dialog(v-model="dialog" persistent)
 			v-card
@@ -24,28 +24,34 @@
 					v-btn(flat primary @click.native="createArticle") Save
 		v-navigation-drawer.accent--alpha(dark clipped v-model="drawer.open", :mini-variant="drawer.mini", persistent overflow enable-resize-watcher)
 			v-list(dark).pa-0.transparent
-				template(v-if="currentUser")
-					v-list-tile(avatar)
-						v-list-tile-avatar(@click.stop="drawer.mini = !drawer.mini")
-							img(:src="currentUser.image")
-						v-list-tile-content
-							v-list-tile-title {{currentUser.firstName}} {{currentUser.lastName}}
-							v-list-tile-sub-title {{currentUser.createdAt | moment("from")}}
-						v-list-tile-action
-							v-btn(icon dark @click.native.stop="drawer.mini = !drawer.mini")
-								v-icon chevron_left
-					v-list-tile(avatar @click.native="$router.push({name: 'index'})")
+				v-slide-x-transition(mode="out-in")
+					v-list-tile(avatar v-if="drawer.mini" @click.native.stop="drawer.mini = false")
 						v-list-tile-avatar
-							v-icon(dark) home
-						v-list-tile-title Home
-					v-list-tile(avatar @click.native.stop="dialog = true")
-						v-list-tile-avatar
-							v-icon(dark) edit
-						v-list-tile-title New Article
-					v-list-tile(avatar @click.native="$router.push({name: 'current_user'})")
-						v-list-tile-avatar
-							v-icon(dark) assignment
-						v-list-tile-title Articles
+							v-icon(dark) chevron_right
+				v-list-tile(avatar v-if="currentUser")
+					v-list-tile-avatar(@click.stop="drawer.mini = !drawer.mini")
+						img(:src="currentUser.image")
+					v-list-tile-content
+						v-list-tile-title {{currentUser.firstName}} {{currentUser.lastName}}
+						v-list-tile-sub-title {{currentUser.createdAt | moment("from")}}
+					v-list-tile-action
+						v-btn(icon dark @click.native.stop="drawer.mini = !drawer.mini")
+							v-icon chevron_left
+				v-list-tile(avatar @click.native="$router.push({name: 'index'})")
+					v-list-tile-avatar
+						v-icon(dark) home
+					v-list-tile-title Home
+					v-list-tile-action(v-if="!currentUser")
+						v-btn(icon dark @click.native.stop="drawer.mini = !drawer.mini")
+							v-icon chevron_left
+				v-list-tile(avatar @click.native.stop="dialog = true" v-if="currentUser")
+					v-list-tile-avatar
+						v-icon(dark) edit
+					v-list-tile-title New Article
+				v-list-tile(avatar @click.native="$router.push({name: 'current_user'})" v-if="currentUser")
+					v-list-tile-avatar
+						v-icon(dark) assignment
+					v-list-tile-title Articles
 				v-list-tile(avatar @click.native.stop="dialogCodeEditor = true")
 					v-list-tile-avatar
 						v-icon(dark) code
@@ -106,7 +112,7 @@
 				autoSave: false,
 				drawer: {
 					open: true,
-					mini: true
+					mini: false
 				},
 				search: '',
 				article: {

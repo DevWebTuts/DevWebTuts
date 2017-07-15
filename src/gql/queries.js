@@ -1,6 +1,6 @@
 export default {
-    articles: `query Articles($first: Int, $skip: Int) {
-        articles: allArticles(first: $first, skip: $skip) {
+    articles: `query Articles($first: Int, $skip: Int, $search: String) {
+        articles: allArticles(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {title_contains: $search}) {
             id
             title
             image
@@ -11,6 +11,11 @@ export default {
                 lastName
             }
             createdAt
+        }
+    }`,
+    articlesCount: `query ArticlesCount($first: Int, $skip: Int, $search: String) {
+        count: _allArticlesMeta(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {title_contains: $search}) {
+            count
         }
     }`,
     article: `query Article($id: ID!) {
@@ -63,7 +68,7 @@ export default {
             articleCount: _articlesMeta(first: $first, skip: $skip) {
                 count
             }
-            articles(first: $first, skip: $skip) {
+            articles(first: $first, skip: $skip, orderBy: createdAt_DESC) {
                 id
                 title
                 image
@@ -92,7 +97,7 @@ export default {
     articleCount: _articlesMeta(first: $first, skip: $skip) {
       count
     }
-    articles(first: $first, skip: $skip) {
+    articles(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       image

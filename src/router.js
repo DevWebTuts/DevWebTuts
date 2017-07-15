@@ -16,15 +16,9 @@ const routes = [{
 		props: true,
 	},
 	{
-		path: '/article',
-		component: Components.CreateArticle,
-		name: 'create_article',
-	},
-	{
 		path: '/user',
 		component: Components.CurrentUser,
 		name: 'current_user',
-		props: true
 	},
 	{
 		path: '/user/:id',

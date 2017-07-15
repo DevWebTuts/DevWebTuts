@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
-import CodeMirror from './CodeMirror.vue';
+import cm from './CodeMirror.vue';
 import {
     asyncComponents
 } from '../utils';
@@ -11,28 +11,19 @@ let components = {
     ...asyncComponents([
         'Home',
         'HTML',
-        'Editor',
-        'Callback',
+        'CodeEditor',
         'Article',
         'Articles',
-        'CreateArticle',
-        'MarkdownEditor',
         'CurrentUser',
         'User',
         'Comment',
         'Comments',
         'Reply',
         'Replies',
-        'CreateArticle'
     ]),
-    CodeMirror
+    CodeMirror: cm
 };
-Vue.component('codemirror', components.CodeMirror);
-Vue.component('reply', components.Reply);
-Vue.component('comment', components.Comment);
-Vue.component('replies', components.Replies);
-Vue.component('comments', components.Comments);
-Vue.component('editor', components.Editor);
-Vue.component('markdown-editor', components.MarkdownEditor);
-Vue.component('articles', components.Articles);
+let {CodeMirror,Reply,Comment,Replies,Comments,Articles,CodeEditor} = components;
+registerComponents({CodeMirror,Reply,Comment,Replies,Comments,Articles,CodeEditor})
+
 export default components;

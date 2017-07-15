@@ -25,7 +25,7 @@
         },
         metaInfo() {
             return {
-                title: user ? user.firstName : 'DevWebTuts'
+                title: this.user ? this.user.firstName : 'DevWebTuts'
             }
         },
         apollo: {

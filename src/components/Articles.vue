@@ -18,7 +18,7 @@
                                 img(:src="article.user.image")
                             v-list-tile-content
                                 v-list-tile-title {{article.user.firstName}} {{article.user.lastName}}
-                                v-list-tile-sub-title {{article.user.createAt | moment("dddd, MMMM Do YYYY")}}
+                                v-list-tile-sub-title {{article.createdAt | moment("dddd, MMMM Do YYYY")}}
 </template>
 
 <script>

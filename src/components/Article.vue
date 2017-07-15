@@ -62,6 +62,22 @@
                         name: 'og:image',
                         content: this.article ? this.article.image : ''
                     },
+                    {
+                        name: 'og:description',
+                        content: "Read and Create your own tutorials to help other web developers."
+                    },
+                    {
+                        name: 'og:url',
+                        content: document.location.href
+                    },
+                    {
+                        name: 'og:site_name',
+                        content: "DevWebTuts"
+                    },
+                    {
+                        name: 'og:type',
+                        content: "website"
+                    },                    
                 ]
             }
         },

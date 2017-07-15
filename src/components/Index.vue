@@ -22,6 +22,58 @@
     export default {
         name: 'home',
         inject: ['drawer', 'auth'],
+        metaInfo() {
+            return {
+                title: 'DevWebTuts',
+                meta: [
+                    {
+                        name: 'description',
+                        content: "Read and Create your own tutorials to help other web developers."
+                    },
+                    {
+                        name: 'image',
+                        content: "https://s-media-cache-ak0.pinimg.com/originals/c6/c0/d9/c6c0d9b4b1fbd9dc73296a58e2dfa37e.png"
+                    },
+                    {
+                        itemprop: 'name',
+                        content: "DevWebTuts"
+                    },
+                    {
+                        itemprop: 'description',
+                        content: "Read and Create your own tutorials to help other web developers."
+                    },
+                    {
+                        itemprop: 'image',
+                        content: "https://s-media-cache-ak0.pinimg.com/originals/c6/c0/d9/c6c0d9b4b1fbd9dc73296a58e2dfa37e.png"
+                    },
+                    {
+                        name: 'og:title',
+                        content: 'DevWebTuts'
+                    },
+                    {
+                        name: 'og:image',
+                        content: "https://s-media-cache-ak0.pinimg.com/originals/c6/c0/d9/c6c0d9b4b1fbd9dc73296a58e2dfa37e.png"
+                    },
+                    {
+                        name: 'og:description',
+                        content: "Read and Create your own tutorials to help other web developers."
+                    },
+                    {
+                        name: 'og:url',
+                        content: "https://devwebtuts.github.io/#/"
+                    },
+                    {
+                        name: 'og:site_name',
+                        content: "DevWebTuts"
+                    },
+                    {
+                        name: 'og:type',
+                        content: "website"
+                    },
+                    
+                ]
+            }
+        },
         data() {
             return {
                 scrolled: false,
@@ -71,8 +123,8 @@
                         first: this.loadedItems,
                     },
                     // Transform the previous result with new data
-                    updateQuery: (previousResult, { fetchMoreResult: {articles} }) => {
-                        console.log(previousResult,articles);
+                    updateQuery: (previousResult, { fetchMoreResult: { articles } }) => {
+                        console.log(previousResult, articles);
                         return {
                             articles
                         }

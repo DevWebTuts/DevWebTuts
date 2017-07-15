@@ -34,7 +34,7 @@
 						v-list-tile-action
 							v-btn(icon dark @click.native.stop="drawer.mini = !drawer.mini")
 								v-icon chevron_left
-					v-list-tile(avatar @click.native="$router.push({name: 'home'})")
+					v-list-tile(avatar @click.native="$router.push({name: 'index'})")
 						v-list-tile-avatar
 							v-icon(dark) home
 						v-list-tile-title Home

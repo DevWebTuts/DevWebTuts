@@ -6,8 +6,8 @@ Vue.use(VueRouter);
 
 const routes = [{
 		path: '/',
-		component: Components.Home,
-		name: 'home'
+		component: Components.Index,
+		name: 'index'
 	},
 	{
 		path: '/article/:id',
@@ -29,7 +29,7 @@ const routes = [{
 	{
 		path: '/*',
 		redirect: {
-			name: 'home'
+			name: 'index'
 		}
 	},
 ]

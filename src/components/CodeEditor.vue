@@ -15,7 +15,36 @@ v-container(fluid).pa-2
         data() {
             return {
                 mode: 'text/html',
-                code: ''
+                code: `
+                <html>
+                    <head>
+                        <title> DevWebTuts </title>
+
+                        <style>
+                            * {
+                                margin: 0;
+                                padding: 0;
+                                box-sizing: border-box;
+                            }
+                            *:before,*:after {
+                                box-sizing: border-box;
+                            }
+                            .welcome {
+                                background: #222;
+                                color: white;
+                                font-size: 56px;
+                                padding: 36px;
+                                width: 100%;
+                                height: calc(100vh - 140px);
+                                font-family: Courier;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="welcome"> Welcome to my Tutorial </div>
+                    </body>
+                </html>
+                `
             }
         },
         computed: {

@@ -1,9 +1,9 @@
 <template lang="pug">
-v-container(fluid).pa-0
-    v-layout(row wrap).ma-0
-        v-flex(xs12 sm6).pa-0
+
+    .row
+        .col-xs-12.col-sm-6
             code-mirror.CodeEditorDialog(v-model="code")
-        v-flex(xs12 sm6).pa-0
+        .col-xs-12.col-sm-6
             iframe(:srcdoc="result", sandbox="allow-scripts allow-same-origin", 
             style="border: solid 2px; height: 100%;", 
             frameborder="0" ref="preview" scrolling="auto")

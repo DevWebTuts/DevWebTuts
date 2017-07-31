@@ -1,49 +1,49 @@
 import ApolloClient, {
-  createBatchingNetworkInterface
+    createBatchingNetworkInterface
 } from 'apollo-client'
 import {
-  SubscriptionClient,
-  addGraphQLSubscriptions
+    SubscriptionClient,
+    addGraphQLSubscriptions
 } from 'subscriptions-transport-ws'
 
 import {
-  endpoints
-} from "../config.json";
+    endpoints
+} from "../env.json";
 
 const wsClient = new SubscriptionClient(endpoints.wss, {
-  reconnect: true,
+    reconnect: true,
 })
 
 
 const networkInterface = createBatchingNetworkInterface({
-  uri: endpoints.https,
-  batchInterval: 10,
-  queryDeduplication: true,
-  transportBatching: true
+    uri: endpoints.https,
+    batchInterval: 10,
+    queryDeduplication: true,
+    transportBatching: true
 })
 
 networkInterface.use([{
-  applyBatchMiddleware(req, next) {
-    if (!req.options.headers) {
-      req.options.headers = {}
-    }
+    applyBatchMiddleware(req, next) {
+        if (!req.options.headers) {
+            req.options.headers = {}
+        }
 
-    if (localStorage.getItem("userToken")) {
-      req.options.headers.Authorization = `Bearer ${localStorage.getItem("userToken")}`;
+        if (localStorage.getItem("userToken")) {
+            req.options.headers.Authorization = `Bearer ${localStorage.getItem("userToken")}`;
 
-    }
-    next()
-  },
+        }
+        next()
+    },
 }])
 const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-  networkInterface,
-  wsClient
+    networkInterface,
+    wsClient
 )
 
 const client = new ApolloClient({
-  networkInterface: networkInterfaceWithSubscriptions,
-  dataIdFromObject: o => o.id,
-  connectToDevTools: false,
+    networkInterface: networkInterfaceWithSubscriptions,
+    dataIdFromObject: o => o.id,
+    connectToDevTools: false,
 });
 
 export default client;

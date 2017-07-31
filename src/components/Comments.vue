@@ -1,25 +1,22 @@
 <template lang="pug">
-    v-container(fluid).pa-2
-        v-subheader Comments ({{comments.length}})
-        .flexbox(v-if="auth.currentUser")
-            v-avatar
-                img(:src="auth.currentUser.image")
-            .text-xs-left.pa-3
-                .subheading {{auth.currentUser.firstName}} {{auth.currentUser.lastName}}
-            v-spacer
-            v-btn(primary fab small dark @click.native="createComment")
-                v-icon send
-        v-text-field(hide-details multi-line v-model="body" label="Write a Comment", :rows="1", v-if="auth.currentUser")
-        v-btn(block primary v-else @click.native="$store.dispatch('login')") Login
+    .layout-padding
+        .headline Comments ({{comments.length}})
+        .row(v-if="auth.currentUser")
+            img.avatar(:src="auth.currentUser.image")
+            .text-left
+                .headline {{auth.currentUser.firstName}} {{auth.currentUser.lastName}}
+            q-btn(color="primary" icon="send" small round @click="createComment")
+        q-field(icon="edit" v-if="auth.currentUser")
+            q-input(type="textarea" v-model="body" float-label="Write a Comment")
+        q-btn.full-width(color="primary" v-else @click="$root.login()") Login
         comment(:comment="c", :key="index", v-for="(c,index) in comments")  
 </template>
 
 <script>
-    import gql from '../gql';
     export default {
         name: 'comments',
         inject: ['auth'],
-        props: ['comments', 'article'],
+        props: ['comments', 'article', 'loading'],
         data() {
             return {
                 body: ''
@@ -27,16 +24,16 @@
         },
         methods: {
             async createComment() {
-                if (!this.auth.currentUser || !this.body || !this.article) return;
+                if (!this.auth.currentUser || !this.body || !this.article) return
                 await this.$apollo.mutate({
-                    mutation: gql.mutations.createComment,
+                    mutation: this.$gql.mutations.createComment,
                     variables: {
                         body: this.body,
                         userId: this.auth.currentUser.id,
                         articleId: this.article
                     }
                 })
-                this.body = '';
+                this.body = ''
             }
         }
     }

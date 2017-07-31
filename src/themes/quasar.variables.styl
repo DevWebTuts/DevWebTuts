@@ -1,0 +1,74 @@
+//
+// Webpack alias "variables" points to this file.
+// So you can import it in your app's *.vue files
+// inside the <style> tag like below.
+//
+// NOTICE that you need lang="styl"
+//
+// <style lang="styl">
+// @import '~variables'
+// ........
+// </style>
+
+
+// First we load app's Stylus variables
+@import 'app.variables'
+
+// Then we load Quasar Stylus variables.
+// Any variables defined in "app.variables.styl"
+// will override Quasar's ones.
+//
+// NOTICE that we only import Core Quasar Variables
+// like colors, media breakpoints, and so.
+// No component variable will be included.
+@import '~quasar/dist/core.variables'
+
+
+@require '../../node_modules/highlight.js/styles/atom-one-dark.css';
+@require '../../node_modules/codemirror/lib/codemirror.css';
+@require '../statics/atom-one-dark.css';
+@require '../../node_modules/codemirror/addon/hint/show-hint.css';
+
+.vh-100
+	height 100vh
+	&-min
+		min-height 100vh
+	&-max
+		max-height 100vh
+.m-a
+	margin auto
+
+
+.ov
+	background rgba(0,0,0,.5)
+
+.article-preview > img
+    max-width 100% !important
+    max-height 100% !important
+    
+.bg-secondary-alpha-8
+	background: alpha($primary,0.8) !important
+
+.author
+	cursor pointer
+	border: $secondary 2px solid
+	border-radius 50%
+	height 300px
+	width 300px
+
+::-webkit-scrollbar
+	width 10px
+	background: alpha($primary,0.8) !important
+
+::-webkit-scrollbar-track
+	-webkit-box-shadow inset 0 0 6px rgba(0,0,0,0.3)
+	border-radius 10px
+
+::-webkit-scrollbar-thumb
+	border-radius 10px
+	-webkit-box-shadow inset 0 0 6px rgba(0,0,0,0.5)
+	background: alpha($secondary,0.8) !important
+
+.CodeEditorDialog + .CodeMirror
+	max-height calc(100vh - 70px) !important
+	height calc(100vh - 70px) !important

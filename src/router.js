@@ -1,41 +1,56 @@
-import Components from './components';
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
-const routes = [{
-		path: '/',
-		component: Components.Index,
-		name: 'index'
-	},
-	{
-		path: '/article/:id',
-		component: Components.Article,
-		name: 'article',
-		props: true,
-	},
-	{
-		path: '/user',
-		component: Components.CurrentUser,
-		name: 'current_user',
-	},
-	{
-		path: '/user/:id',
-		component: Components.User,
-		name: 'user',
-		props: true
-	},
-	{
-		path: '/*',
-		redirect: {
-			name: 'index'
-		}
-	},
-]
+function load(component) {
+    // '@' is aliased to src/components
+    return () => System.import(`@/${component}.vue`)
+}
+Vue.component('comments', load('Comments'))
+Vue.component('comment', load('Comment'))
+Vue.component('replies', load('Replies'))
+Vue.component('articles', load('Articles'))
+Vue.component('reply', load('reply'))
+Vue.component('article-card', load('ArticleCard'))
+Vue.component('code-editor', load('CodeEditor'))
+Vue.component('code-mirror', load('CodeMirror'))
 
-const router = new VueRouter({
-	routes
+export default new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            component: load('Index'),
+            name: 'index'
+        },
+        {
+            path: '/articles/:id',
+            component: load('Article'),
+            name: 'article',
+            props: true,
+        },
+        {
+            path: '/articles',
+            component: load('AllArticles'),
+            name: 'articles',
+            props: true,
+        },
+        {
+            path: '/user',
+            component: load('CurrentUser'),
+            name: 'current_user',
+        },
+        {
+            path: '/user/:id',
+            component: load('User'),
+            name: 'user',
+            props: true
+        },
+
+        {
+            path: '*',
+            component: load('Error404')
+        }
+    ]
 })
-
-export default router;

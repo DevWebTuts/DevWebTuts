@@ -1,21 +1,18 @@
 <template lang="pug">
-    v-container(fluid).pa-2
-        v-subheader Replies ({{replies.length}})
-        .ml-5
-            .flexbox(v-if="auth.currentUser")
-                v-avatar
-                    img(:src="auth.currentUser.image")
-                .text-xs-left.pa-3
-                    .subheading {{auth.currentUser.firstName}} {{auth.currentUser.lastName}}
-                v-spacer
-                v-btn(primary fab small dark @click.native="createReply")
-                    v-icon send
-            v-text-field(hide-details multi-line v-model="body" label="Write a Reply", :rows="1", v-if="auth.currentUser")
-            reply(:reply="r", :key="index", v-for="(r,index) in replies")  
+    .layout-padding
+        .headline Replies ({{replies.length}})
+        .row(v-if="auth.currentUser")
+            img.avatar(:src="auth.currentUser.image")
+            .text-left
+                .headline {{auth.currentUser.firstName}} {{auth.currentUser.lastName}}
+            q-btn(color="primary" icon="send" small round @click="createReply")
+        q-field(icon="edit" v-if="auth.currentUser")
+            q-input(type="textarea" v-model="body" float-label="Write a Comment")
+        reply(:reply="r", :key="index", v-for="(r,index) in replies") 
+
 </template>
 
 <script>
-    import gql from '../gql';
     export default {
         name: 'replies',
         inject: ['auth'],
@@ -27,16 +24,16 @@
         },
         methods: {
             async createReply() {
-                if (!this.auth.currentUser || !this.body || !this.comment) return;
+                if (!this.auth.currentUser || !this.body || !this.comment) return
                 await this.$apollo.mutate({
-                    mutation: gql.mutations.createReply,
+                    mutation: this.$gql.mutations.createReply,
                     variables: {
                         body: this.body,
                         userId: this.auth.currentUser.id,
                         commentId: this.comment
                     }
                 })
-                this.body = '';
+                this.body = ''
             }
         }
     }

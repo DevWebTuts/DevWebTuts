@@ -1,13 +1,11 @@
 <template lang="pug">
-    v-card(flat)
-        v-card-title(primary-title).primary.white--text.pa-1
-            .flexbox
-                v-avatar.pr-3
-                    img.pointer(:src="reply.user.image", @click="$router.push({name: 'user',params: {id: reply.user.id}})")
-                .text-xs-left
-                    .subheading {{reply.user.firstName}}
-                    .caption.grey--text.text--lighten-3 {{reply.createdAt | moment("from")}}
-        v-card-text {{reply.body}}
+    q-card(flat)
+        q-toolbar
+            img.cursor-pointer.avatar(:src="reply.user.image", @click="$router.push({name: 'user',params: {id: reply.user.id}})")
+            q-toolbar-title
+                |{{reply.user.firstName}}
+                span(slot="subtitle") {{reply.createdAt | moment("from")}}
+        q-card-main {{reply.body}}
 </template>
 
 <script>

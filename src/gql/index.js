@@ -8,5 +8,6 @@ convert(mutations);
 
 export default {
     queries,
-    mutations
+    mutations,
+    gql
 }

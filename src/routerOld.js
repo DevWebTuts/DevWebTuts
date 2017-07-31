@@ -1,0 +1,41 @@
+import Components from './components';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+Vue.use(VueRouter);
+
+const routes = [
+{
+    path: '/',
+    component: Components.Index,
+    name: 'index'
+},
+{
+    path: '/article/:id',
+    component: Components.Article,
+    name: 'article',
+    props: true,
+},
+{
+    path: '/user',
+    component: Components.CurrentUser,
+    name: 'current_user',
+},
+{
+    path: '/user/:id',
+    component: Components.User,
+    name: 'user',
+    props: true
+},
+{
+    path: '/*',
+    redirect: {
+        name: 'index'
+    }
+}, ]
+
+const router = new VueRouter({
+    routes
+})
+
+export default router;

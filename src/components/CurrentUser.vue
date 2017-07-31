@@ -1,14 +1,16 @@
 <template lang="pug">
-    .flexbox.vh-100-min.pt-5
-        template(v-if="auth.userLoading")
-            .m-a
-                v-progress-circular(indeterminate, :size="100")
-        template(v-else-if="auth.currentUser")
-            .box
-                .pa-3
-                    .display-3.accent--text Articles ({{auth.currentUser.articleCount.count}})
-                    .title {{auth.currentUser.firstName}}
-                articles(:articles="auth.currentUser.articles")
+    .row(style="min-height: calc(100vh - 100px)")
+        .m-a(v-if="auth.userLoading")
+            q-spinner(:size="100")
+        .fit(v-else-if="auth.currentUser")
+            div(style="padding: 16px")
+                h3.text-secondary Articles ({{auth.currentUser.articleCount.count}})
+                .title {{auth.currentUser.firstName}}
+            articles(:articles="auth.currentUser.articles", :articlesLoading="loading")
+        .m-a(v-else)
+            h1.text-center Login now to create articles
+            .text-center
+                q-btn(style="width: 200px", color="primary" @click="$root.login()") Login
 </template>
 
 <script>

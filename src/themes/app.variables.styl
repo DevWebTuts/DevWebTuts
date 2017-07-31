@@ -1,0 +1,71 @@
+// This file is included in the build if src/main.js imports
+// either app.mat.styl or app.ios.styl.
+// Check "DEFAULT / CUSTOM STYLE" in src/main.js
+
+// App Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Stylus variables found in Quasar's source Stylus files. Setting
+// variables before Quasar's Stylus will use these variables rather than
+// Quasar's default Stylus variable values. Stylus variables specific
+// to the themes belong in either the app.ios.styl or app.mat.styl files.
+
+
+// App Shared Color Variables
+// --------------------------------------------------
+// It's highly recommended to change the default colors
+// to match your app's branding.
+
+$primary   = #172A3A
+$secondary = #27AE60
+$tertiary  = #0B1924
+
+$neutral   = #E0E1E2
+$positive  = #21BA45
+$negative  = #DB2828
+$info      = #31CCEC
+$warning   = #F2C037
+
+.vh-100
+	height 100vh
+	&-min
+		min-height 100vh
+	&-max
+		max-height 100vh
+.m-a
+	margin auto
+
+
+.ov
+	background rgba(0,0,0,.5)
+
+.article-preview > img
+    max-width 100% !important
+    max-height 100% !important
+    
+.bg-secondary-alpha-8
+	background: alpha($primary,0.8) !important
+
+.author
+	cursor pointer
+	border: $secondary 2px solid
+	border-radius 50%
+	height 300px
+	width 300px
+
+::-webkit-scrollbar
+	width 10px
+	background: alpha($primary,0.8) !important
+
+::-webkit-scrollbar-track
+	-webkit-box-shadow inset 0 0 6px rgba(0,0,0,0.3)
+	border-radius 10px
+
+::-webkit-scrollbar-thumb
+	border-radius 10px
+	-webkit-box-shadow inset 0 0 6px rgba(0,0,0,0.5)
+	background: alpha($secondary,0.8) !important
+
+.CodeEditorDialog + .CodeMirror
+	max-height calc(100vh - 70px) !important
+	height calc(100vh - 70px) !important

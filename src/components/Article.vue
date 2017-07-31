@@ -1,11 +1,11 @@
 <template lang="pug">
 
-    .layout.row.vh-100-min.ma-0(v-if="loading")
+    .row.window-height(v-if="loading")
         .m-a
-            v-progress-circular(indeterminate, :size="200").accent--text
+            q-spinner-gears(:size="200" color="primary")
     .vh-100-min(v-else-if="article")
         template(v-if="edit")
-            v-container(fluid v-if="edit" style="padding-top: 64px;").accent.flexbox
+            //.row(fluid v-if="edit" style="padding-top: 64px;")
                 v-menu(offset-y, :close-on-content-click="false")
                     img(slot="activator", :src="article.image" style="height: 100px; width: 100px; cursor: pointer;").mr-4
                     .pa-2.primary
@@ -13,44 +13,40 @@
                     v-container(fluid)
                         v-text-field(label="Image" v-model="article.image")
                 v-text-field(v-model="article.title" hide-details dark label="Title")
-            v-btn(fab primary bottom right fixed dark @click.native="updateArticle" style="z-index: 9999")
-                v-icon save
-            v-btn(block warning @click.native="undoEdit").ma-0 Undo
-        .accent.relative(style="height: 100vh;" v-else)
-            img.absolute.box(:src="article.image")
-            .flexbox.box.ov.absolute
-                .m-a.text-xs-center
-                    .pa-3
-                        .display-3.white--text {{article.title}}
+            q-btn.fixed-bottom-right.z-absolute(style="bottom: 18px; right: 18px" color="primary" @click="updateArticle" small round icon="save")
+            q-btn.full-width(color="warning" @click="undoEdit") Undo
+        .bg-primary.relative-position.window-height(v-else)
+            img.absolute.fit(:src="article.image")
+            .row.fit.ov.absolute
+                .m-a.text-center
+                    h2.text-white {{article.title}}
                     img.author(:src="article.user.image", @click="$router.push({name: 'user', params: {id: article.user.id}})")
-                    .headline.white--text {{article.user.firstName}} {{article.user.lastName}}
-                    .caption.grey--text.text--lighten-3 Created {{article.createdAt | moment("from")}}
-                    .caption.grey--text.text--lighten-3 Updated {{article.updatedAt | moment("from")}}
-                    v-btn(primary v-if="canEdit" @click.native="editArticle") Edit
-                    v-btn(info @click.native="shareArticle") Share
-                    v-menu(:close-on-content-click="false", offset-y)
-                        v-btn(slot="activator" error v-if="canEdit") Delete
-                        .pa-2.error
-                            .title.white--text Delete Article
-                        v-container(fluid)
-                            v-text-field(v-model="deleteVerification" label="Article Title" hide-details)
-                            v-btn(block error @click.native="deleteArticle", :disabled="deleteVerification !== article.title") Delete
+                    .headline.text-white {{article.user.firstName}} {{article.user.lastName}}
+                    .caption.text-grey Created {{article.createdAt | moment("from")}}
+                    .caption.text-grey Updated {{article.updatedAt | moment("from")}}
+                    q-btn(color="primary" v-if="canEdit" @click="editArticle") Edit
+                    q-btn(color="info" @click.native="shareArticle") Share
+                    q-btn(color="negative" v-if="canEdit") Delete
+                        q-popover(ref="deleteArticlePopover")
+                            .bg-error(style="padding: 16px")
+                                .title.white--text Delete Article
+                            div(style="padding: 16px")
+                                q-field(icon="vpn_key")
+                                    q-input(v-model="deleteVerification" float-label="Article Title")
+                                q-btn.full-width(color="negative" @click="deleteArticle", :disabled="deleteVerification !== article.title") Delete
 
-        v-layout(row wrap).ma-0
-            v-flex(xs12, sm6 v-if="edit").pa-0
+        .row
+            .col-xs-12.col-sm-6(v-if="edit")
                 code-mirror.markdown--editor(v-model="article.body", mode="text/x-gfm" key="editor", @save="updateArticle")
-            v-flex(xs12, :class="edit ? 'sm6' : 'sm12'").pa-0
-                v-container(fluid v-html="result" key="preview" v-if="article.body").pa-2
+            .col-xs-12(:class="edit ? 'col-sm-6' : 'col-sm-12'").pa-0
+                q-card(key="preview" v-if="article.body").article-preview
+                    q-card-main(v-html="result")
                 comments(v-if="!edit", :comments="article.comments", :article="article.id")
         
         
 </template>
 
 <script>
-    import gql from '../gql';
-    import axios from 'axios';
-
-    import { mapGetters } from 'vuex';
     import markedWorker from 'worker-loader!../worker.js'
 
     const worker = new markedWorker();
@@ -86,7 +82,7 @@
                     {
                         name: 'og:type',
                         content: "website"
-                    },                    
+                    },
                 ]
             }
         },
@@ -114,52 +110,59 @@
         watch: {
             ['article.body'](val) {
                 if (!this.edit) {
-                    this.loading = 1;
+                    this.loading = 1
                 }
-                worker.postMessage(val);
+                worker.postMessage(val)
             }
         },
         methods: {
             workerEvent({ data }) {
-                this.loading = 0;
-                this.result = data;
+                this.loading = 0
+                this.result = data
             },
             editArticle() {
-                this.oldArticle = {...this.article};
+                this.oldArticle = { ...this.article }
                 this.edit = true;
             },
             undoEdit() {
-                this.article = {...this.oldArticle};
-                this.edit = false;
+                this.article = { ...this.oldArticle }
+                this.edit = false
             },
             shareArticle() {
                 window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(document.location.href)}`)
             },
             async deleteArticle() {
-                if(this.deleteVerification !== this.article.title) return;
-                let {id} = this.article;
-                let {data} = await this.$apollo.mutate({
-                    mutation: gql.mutations.deleteArticle,
-                    variables: {
-                        id
-                    }
-                })
-                if(!data) return;
-                this.deleteVerification = '';
-                this.$router.push({name: 'current_user'});
+                try {
+                    if (this.deleteVerification !== this.article.title) return
+                    let { id } = this.article
+                    let { data } = await this.$apollo.mutate({
+                        mutation: this.$gql.mutations.deleteArticle,
+                        variables: {
+                            id
+                        }
+                    })
+                    this.deleteVerification = ''
+                    this.$router.push({ name: 'current_user' })
+                } catch (e) {
+
+                }
             },
             async updateArticle() {
-                let { id, body, title, image, user } = this.article;
-                let { data } = await this.$apollo.mutate({
-                    mutation: gql.mutations.updateArticle,
-                    variables: {
-                        id,
-                        body,
-                        title,
-                        image,
-                    }
-                })
-                this.edit = false;
+                try {
+                    let { id, body, title, image, user } = this.article
+                    let { data } = await this.$apollo.mutate({
+                        mutation: this.$gql.mutations.updateArticle,
+                        variables: {
+                            id,
+                            body,
+                            title,
+                            image,
+                        }
+                    })
+                    this.edit = false;
+                } catch (e) {
+
+                }
             },
         },
         computed: {
@@ -168,20 +171,22 @@
             },
         },
         apollo: {
-            article: {
-                query: gql.queries.article,
-                variables() {
-                    return {
-                        id: this.id || 0
+            article() {
+                return {
+                    query: this.$gql.queries.article,
+                    variables() {
+                        return {
+                            id: this.id || 0
+                        }
+                    },
+                    pollInterval: 1000,
+                    loadingKey: 'loading',
+                    result({ data: { article } }) {
+                        if (article) {
+                            this.article = { ...article };
+                        }
+                        this.edit = this.$route.query.action === 'edit' && this.canEdit
                     }
-                },
-                pollInterval: 1000,
-                loadingKey: 'loading',
-                result({ data: { article } }) {
-                    if(article) {
-                        this.article = {...article};
-                    }
-                    this.edit = this.$route.query.action === 'edit' && this.canEdit;
                 }
             }
         },

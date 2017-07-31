@@ -1,5 +1,26 @@
 <template lang="pug">
-	v-app(v-if="!userLoading")
+	#q-app
+		q-layout(view="lhr LpR FFF" reveal v-if="!userLoading")
+			q-toolbar(slot="header")
+				q-toolbar-title DevWebTuts
+				q-btn(icon="home" small flat @click="$router.push({name: 'home'})" dark) 
+					.gt-xs Home
+				q-btn(icon="assignment" small flat @click="$router.push({name: 'articles'})" dark) 
+					.gt-xs Articles
+				template(v-if="currentUser")
+					img.avatar(:src="currentUser.image" @click="$router.push({name: 'current_user'})")
+					q-btn(icon="exit_to_app" small flat @click="$root.logout()" )
+						.gt-xs Logout
+				q-btn(icon="vpn_key" small flat @click="$root.login()" v-else)
+					.gt-xs Login
+			router-view
+			q-modal(ref="dialogCodeEditor" maximized)
+				q-toolbar-title Code Editor
+				code-editor
+			q-toolbar(slot="footer")
+				q-toolbar-title &copy; DevWebTuts 2017
+
+	//v-app(v-if="!userLoading")
 		v-snackbar(v-model="toast" v-bind="$snackbar") {{$snackbar ? $snackbar.message : ''}}
 		v-dialog(fullscreen v-model="dialogCodeEditor")
 			v-card
@@ -80,8 +101,6 @@
 </template>
 
 <script>
-	import gql from '../gql';
-	import { mapGetters } from 'vuex';
 	export default {
 		name: "app",
 		metaInfo: {
@@ -96,9 +115,6 @@
 				userLoading: {
 					get: () => this.userLoading,
 				},
-				userSearch: {
-					get: () => this.search
-				}
 			})
 			return {
 				auth,
@@ -126,12 +142,12 @@
 		},
 		methods: {
 			scrollUp() {
-				return window.scroll(0,0);
+				return window.scroll(0, 0);
 			},
 			async createArticle() {
-				let {title,body,image} = this.article;
-				if(!title || !this.currentUser) return;
-				let {data} = await this.$apollo.mutate({
+				let { title, body, image } = this.article;
+				if (!title || !this.currentUser) return;
+				let { data } = await this.$apollo.mutate({
 					mutation: gql.mutations.createArticle,
 					variables: {
 						title,
@@ -141,28 +157,21 @@
 					}
 				})
 				this.dialog = false;
-				if(!data || !data.article) return;
-				this.$router.push({name: 'article', params: {id: data.article.id},query: {action: 'edit'}})
+				if (!data || !data.article) return;
+				this.$router.push({ name: 'article', params: { id: data.article.id }, query: { action: 'edit' } })
 			},
+
 		},
+
 		apollo: {
-			currentUser: {
-				query: gql.queries.currentUser,
-				loadingKey: 'userLoading',
-				fetchPolicy: 'network-only',
-				pollInterval: 1000,
+			currentUser() {
+				return {
+					query: this.$gql.queries.currentUser,
+					loadingKey: 'userLoading',
+					fetchPolicy: 'network-only',
+					pollInterval: 1000,
+				}
 			}
-		},
-		computed: {
-			...mapGetters([
-				'$snackbar'
-			]),
 		},
 	}
 </script>
-
-<style lang="stylus">
-
-	@import './app.styl';
-
-</style>

@@ -19,7 +19,7 @@ Vue.component('code-editor', load('CodeEditor'))
 Vue.component('code-mirror', load('CodeMirror'))
 
 export default new VueRouter({
-    mode: 'history',
+    //mode: 'history',
     routes: [
         {
             path: '/',

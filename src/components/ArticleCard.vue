@@ -18,7 +18,7 @@ export default {
     props: ['article'],
     computed: {
         canChangeVisibility() {
-            return this.auth.currentUser ? this.$route.name === 'user' ? this.auth.currentUser.admin || (this.auth.currentUser.id === this.$route.params.id) : (this.auth.currentUser.admin || this.$route.name === 'current_user') : false
+            return this.auth.currentUser || this.$route.name === 'articles' ? this.$route.name === 'user' ? this.auth.currentUser.admin || (this.auth.currentUser.id === this.$route.params.id) : (this.auth.currentUser.admin || this.$route.name === 'current_user') : false
         }
     },
     methods: {

@@ -1,21 +1,20 @@
 <template lang="pug">
-
-    .row
-        .col-xs-12.col-sm-6
-            code-mirror.CodeEditorDialog(v-model="code")
+    .row(style="height: calc(100vh - 54px) !important")
+        .col-xs-12.col-sm-6.fit
+            code-mirror.CodeEditorDialog(v-model="code").full-height
         .col-xs-12.col-sm-6
             iframe(:srcdoc="result", sandbox="allow-scripts allow-same-origin", 
             style="border: solid 2px; height: 100%;", 
-            frameborder="0" ref="preview" scrolling="auto")
+            frameborder="0" key="preview" scrolling="auto").fit
 </template>
 
 <script>
-    export default {
-        name: 'code-editor',
-        data() {
-            return {
-                mode: 'text/html',
-                code: `
+export default {
+    name: 'code-editor',
+    data() {
+        return {
+            mode: 'text/html',
+            code: `
                 <html>
                     <head>
                         <title> DevWebTuts </title>
@@ -45,12 +44,12 @@
                     </body>
                 </html>
                 `
-            }
-        },
-        computed: {
-            result() {
-                return this.code;
-            }
-        },
-    }
+        }
+    },
+    computed: {
+        result() {
+            return this.code;
+        }
+    },
+}
 </script>

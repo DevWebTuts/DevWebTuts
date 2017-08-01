@@ -13,6 +13,7 @@ var
   webpackConfig = require('./webpack.dev.conf'),
   app = express(),
   port = process.env.PORT || config.dev.port,
+  host = process.env.HOST || 'localhost',
   uri = 'http://localhost:' + port
 
 console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
@@ -23,7 +24,7 @@ if (config.dev.openBrowser) {
 
 var compiler = webpack(webpackConfig)
 
-// Define HTTP proxies to your custom API backend
+// Define HTTP proxies to your custom AcPI backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
 
@@ -33,7 +34,7 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
 })
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler, {
-  log: function () {}
+  log: function () { }
 })
 
 // force page reload when html-webpack-plugin template changes
@@ -71,7 +72,7 @@ app.use(staticsPath, express.static('./src/statics'))
 // try to serve Cordova statics for Play App
 app.use(express.static(env.platform.cordovaAssets))
 
-module.exports = app.listen(port, function (err) {
+module.exports = app.listen(port, host, function (err) {
   if (err) {
     console.log(err)
     return

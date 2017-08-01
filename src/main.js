@@ -32,7 +32,7 @@ Vue.use(VueMeta)
 const apolloProvider = new VueApollo({
     defaultClient: client,
 });
-console.log(gql)
+
 Vue.prototype.$gql = gql
 
 Vue.config.productionTip = false
@@ -61,19 +61,21 @@ Quasar.start(() => {
                 auth.show({
                     allowSignUp: false
                 });
+
             },
             logout() {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("idToken");
                 localStorage.removeItem("userToken");
-                this.$router.push({ name: 'home' })
+                this.$router.push({ name: 'index' })
+                this.$q.events.$emit('app:auth')
             },
         },
         created() {
             auth.on("authenticated", async authResult => {
-                if (!authResult) return;
-                localStorage.setItem("accessToken", authResult.accessToken);
-                localStorage.setItem("idToken", authResult.idToken);
+                if (!authResult) return
+                localStorage.setItem("accessToken", authResult.accessToken)
+                localStorage.setItem("idToken", authResult.idToken)
                 try {
 
                     let { data } = await client.mutate({
@@ -81,11 +83,12 @@ Quasar.start(() => {
                         variables: {
                             idToken: authResult.idToken
                         }
-                    });
+                    })
                     localStorage.setItem("userToken", data.user.token)
+                    this.$q.events.$emit('app:auth')
 
                 } catch (e) {
-                    auth.getUserInfo(authResult.accessToken, async(error, profile) => {
+                    auth.getUserInfo(authResult.accessToken, async (error, profile) => {
                         if (error) return;
                         let variables = {
                             idToken: authResult.idToken,
@@ -94,12 +97,13 @@ Quasar.start(() => {
                             lastName: profile.family_name,
                             middleName: profile.middle_name,
                             image: profile.picture_large
-                        };
+                        }
 
                         let user = await client.mutate({
                             mutation: this.$gql.mutations.createUser,
                             variables
-                        });
+                        })
+                        this.$q.events.$emit('app:auth')
                     })
                 }
 

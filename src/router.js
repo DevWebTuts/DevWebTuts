@@ -11,8 +11,10 @@ Vue.component('comments', load('Comments'))
 Vue.component('comment', load('Comment'))
 Vue.component('replies', load('Replies'))
 Vue.component('articles', load('Articles'))
-Vue.component('reply', load('reply'))
+Vue.component('reply', load('Reply'))
 Vue.component('article-card', load('ArticleCard'))
+Vue.component('users', load('Users'))
+Vue.component('user-card', load('UserCard'))
 Vue.component('code-editor', load('CodeEditor'))
 Vue.component('code-mirror', load('CodeMirror'))
 
@@ -40,6 +42,11 @@ export default new VueRouter({
             path: '/user',
             component: load('CurrentUser'),
             name: 'current_user',
+        },
+        {
+            path: '/users',
+            component: load('AllUsers'),
+            name: 'users',
         },
         {
             path: '/user/:id',

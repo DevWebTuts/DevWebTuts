@@ -1,6 +1,6 @@
 <template lang="pug">
-    q-card(flat)
-        q-toolbar
+    q-card
+        q-toolbar(color="secondary")
             img.cursor-pointer.avatar(:src="reply.user.image", @click="$router.push({name: 'user',params: {id: reply.user.id}})")
             q-toolbar-title
                 |{{reply.user.firstName}}
@@ -9,8 +9,8 @@
 </template>
 
 <script>
-    export default {
-        name: 'reply',
-        props: ['reply']
-    }
+export default {
+    name: 'reply',
+    props: ['reply']
+}
 </script>

@@ -10,33 +10,33 @@
 </template>
 
 <script>
-    export default {
-        name: 'user',
-        props: ['id'],
-        data() {
+export default {
+    name: 'user',
+    props: ['id'],
+    data() {
+        return {
+            loading: 0,
+            user: null,
+            search: ''
+        }
+    },
+    metaInfo() {
+        return {
+            title: this.user ? this.user.firstName : 'DevWebTuts'
+        }
+    },
+    apollo: {
+        user() {
             return {
-                loading: 0,
-                user: null,
-                search: ''
-            }
-        },
-        metaInfo() {
-            return {
-                title: this.user ? this.user.firstName : 'DevWebTuts'
-            }
-        },
-        apollo: {
-            user() {
-                return {
-                    query: this.$gql.queries.user,
-                    loadingKey: 'loading',
-                    variables() {
-                        return {
-                            id: this.id
-                        }
-                    },
-                }
+                query: this.$gql.queries.user,
+                loadingKey: 'loading',
+                variables() {
+                    return {
+                        id: this.id
+                    }
+                },
             }
         }
     }
+}
 </script>

@@ -19,8 +19,8 @@ export default {
       id
     }
   }`,
-  updateArticle: `mutation UpdateArticle($id: ID!, $body: String, $image: String, $title: String!,$userId: ID) {
-    article: updateArticle(id: $id, body: $body, image: $image, title: $title, userId: $userId) {
+  updateArticle: `mutation UpdateArticle($id: ID!, $body: String, $image: String, $title: String, $published: Boolean,$userId: ID) {
+    article: updateArticle(id: $id, body: $body, image: $image, title: $title, published: $published, userId: $userId) {
       id
     }
   }`,

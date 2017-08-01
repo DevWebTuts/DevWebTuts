@@ -1,19 +1,22 @@
 <template lang="pug">
-    .vh-100-min
+    .vh-100-min(v-if="auth.currentUser.admin")
         q-toolbar(flat dark).accent
-            q-toolbar-title Articles ({{count ? count.count : 0}})
+            q-toolbar-title Users ({{count ? count.count : 0}})
             q-search(icon="search" dark v-model="search" inverted)
-        articles(:articles="articles", :loading="loading")
+        users(:users="users", :loading="loading")
         .text-center(style="margin-bottom: 16px")
             q-btn(style="width: 200px;" color="primary" loader @click="loadMore" v-if="canViewMore") View More
+    .row.window-height(v-else)
+        .m-a.text-center
+            h1 You're not an admin
 </template>
 
 <script>
 export default {
-    name: 'all-articles',
+    name: 'all-users',
+    inject: ['auth'],
     data() {
         return {
-            scrolled: false,
             loading: 0,
             limit: 8,
             offset: 1,
@@ -28,39 +31,12 @@ export default {
             return this.count ? this.loadedItems < this.count.count : false;
         }
     },
-    apollo: {
-        count() {
-            return {
-                query: this.$gql.queries.articlesCount,
-                fetchPolicy: 'cache-and-network',
-                loadingKey: 'loading',
-                variables() {
-                    return {
-                        search: this.search,
-                    }
-                }
-            }
-        },
-        articles() {
-            return {
-                query: this.$gql.queries.articles,
-                fetchPolicy: 'cache-and-network',
-                loadingKey: 'loading',
-                variables() {
-                    return {
-                        search: this.search,
-                        first: 8,
-                    }
-                }
-            }
-        },
-    },
     methods: {
         async loadMore(e, done) {
             try {
                 if (!this.canViewMore) return
                 this.offset++
-                await this.$apollo.queries.articles.fetchMore({
+                await this.$apollo.queries.users.fetchMore({
                     variables: {
                         search: this.search,
                         first: this.loadedItems,
@@ -78,6 +54,29 @@ export default {
                 done()
             }
         },
+    },
+    apollo: {
+        count() {
+            return {
+                query: this.$gql.queries.usersCount,
+                fetchPolicy: 'cache-and-network',
+                loadingKey: 'loading',
+                variables() {
+                    return {
+                        search: this.search,
+                    }
+                }
+            }
+        },
+        users() {
+            return {
+                query: this.$gql.queries.users,
+                variables: {
+                    first: 8,
+                    search: this.search
+                }
+            }
+        }
     }
 }
 </script>

@@ -1,9 +1,25 @@
 export default {
+    users: `query Users($first: Int, $skip: Int, $search: String) {
+       users: allUsers(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {firstName_contains: $search}) {
+           id
+           firstName
+           middleName
+           lastName
+           image
+           createdAt
+       } 
+    }`,
+    usersCount: `query UsersCount($first: Int, $skip: Int, $search: String) {
+       count: _allUsersMeta(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {firstName_contains: $search}) {
+           count
+       } 
+    }`,
     articles: `query Articles($first: Int, $skip: Int, $search: String) {
-        articles: allArticles(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {title_contains: $search}) {
+        articles: allArticles(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {title_contains: $search, published: true}) {
             id
             title
             image
+            published
             user {
                 id
                 image
@@ -13,8 +29,8 @@ export default {
             createdAt
         }
     }`,
-    articlesCount: `query ArticlesCount($first: Int, $skip: Int, $search: String) {
-        count: _allArticlesMeta(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {title_contains: $search}) {
+    articlesCount: `query ArticlesCount($first: Int, $skip: Int, $search: String,) {
+        count: _allArticlesMeta(first: $first, skip: $skip, orderBy: createdAt_DESC, filter: {title_contains: $search, published: true}) {
             count
         }
     }`,
@@ -26,6 +42,7 @@ export default {
             body
             createdAt
             updatedAt
+            published
             user {
                 id
                 email
@@ -65,6 +82,7 @@ export default {
             firstName
             middleName
             lastName
+            admin
             articleCount: _articlesMeta(first: $first, skip: $skip) {
                 count
             }
@@ -74,6 +92,7 @@ export default {
                 image
                 createdAt
                 updatedAt
+                published
                 user {
                     id
                     image
@@ -94,6 +113,7 @@ export default {
     email
     createdAt
     updatedAt
+    admin
     articleCount: _articlesMeta(first: $first, skip: $skip) {
       count
     }
@@ -103,6 +123,7 @@ export default {
       image
       createdAt
       updatedAt
+      published
       user {
           id
           image

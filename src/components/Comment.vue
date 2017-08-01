@@ -1,5 +1,5 @@
 <template lang="pug">
-    q-card(flat)
+    q-card
         q-toolbar
             img.cursor-pointer.avatar(:src="comment.user.image", @click="$router.push({name: 'user',params: {id: comment.user.id}})")
             q-toolbar-title
@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    export default {
-        name: 'comment',
-        props: ['comment'],
-    }
+export default {
+    name: 'comment',
+    props: ['comment'],
+}
 </script>

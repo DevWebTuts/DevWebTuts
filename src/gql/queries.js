@@ -7,6 +7,7 @@ export default {
            lastName
            image
            createdAt
+           admin
        } 
     }`,
     usersCount: `query UsersCount($first: Int, $skip: Int, $search: String) {
@@ -25,6 +26,7 @@ export default {
                 image
                 firstName
                 lastName
+                admin
             }
             createdAt
         }
@@ -50,6 +52,7 @@ export default {
                 middleName
                 lastName
                 image
+                admin
             }
             comments {
                 id
@@ -59,6 +62,7 @@ export default {
                     id
                     firstName
                     image
+                    admin
                 }
                 replies {
                     id
@@ -68,6 +72,7 @@ export default {
                         id
                         firstName
                         image
+                        admin
                     }
                 }
             }
@@ -99,6 +104,7 @@ export default {
                     firstName
                     middleName
                     lastName
+                    admin
                 }
             }
         }
@@ -130,6 +136,7 @@ export default {
           firstName
           middleName
           lastName
+          admin
       }
     }
   }

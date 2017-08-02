@@ -8,14 +8,15 @@ div
         .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
             q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#introduction'")
     #introduction
-        h1.text-center What is DevWebTuts
-        p.text-justify(style="width: 400px").m-a
-            | DevWebTuts stands for Developer Web Tutorials this is just for uniqueness. The purpose of the site is to allow users to have free references for
-            | Web development that will be created by contributors or you for helping beginners to start developing for the web. 
+        h3.text-center What is DevWebTuts
+        p.text-center.layout-padding
+            | DevWebTuts stands for Developer Web Tutorials this is just for uniqueness. The purpose of the site is to allow users to have free references for #[br]
+            | Web development that will be created by contributors or you for helping beginners to start developing for the web. #[br]
             | This site will also be updated weekly by the admins sharing new technologies or tools for the web.
+        hr
     #features
-        h1.text-center Features
-        .row.layout-padding
+        h2.text-center Features
+        .row.layout-padding(style="padding-right: 80px; padding-left: 80px")
             .col-xs-12.col-sm-6.col-md-4(v-for="(feature,i) in features", :key="i")
                 q-card
                     q-toolbar

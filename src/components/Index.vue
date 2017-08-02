@@ -6,7 +6,7 @@ div
         .absolute.fit.row
             h3.text-white.text-center.m-a.select--none #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
         .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
-            q-btn(outline round icon="keyboard_arrow_down" color="white")
+            q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#introduction'")
     #introduction
         h1.text-center What is DevWebTuts
         p.text-justify(style="width: 400px").m-a

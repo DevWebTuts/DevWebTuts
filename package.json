@@ -19,6 +19,7 @@
         "vue-meta": "^1.0.4",
         "vue-moment": "^2.0.2",
         "vue-router": "^2.6.0",
+        "vue-scrollto": "^2.7.2",
         "vuetify": "^0.13.1",
         "vuex": "^2.3.1"
     },

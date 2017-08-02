@@ -21,13 +21,14 @@ import auth from './auth'
 import VueApollo from 'vue-apollo'
 
 import client from './apollo'
-
+import VueScrollTo from 'vue-scrollto'
 import VueMoment from 'vue-moment'
 import VueMeta from 'vue-meta'
 
 Vue.use(VueMoment)
 Vue.use(VueApollo)
 Vue.use(VueMeta)
+Vue.use(VueScrollTo)
 
 const apolloProvider = new VueApollo({
     defaultClient: client,

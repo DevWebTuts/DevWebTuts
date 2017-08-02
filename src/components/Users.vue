@@ -11,5 +11,6 @@
 export default {
     name: 'users',
     props: ['users', 'loading'],
+
 }
 </script>

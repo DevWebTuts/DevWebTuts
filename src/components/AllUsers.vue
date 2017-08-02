@@ -31,7 +31,19 @@ export default {
             return this.count ? this.loadedItems < this.count.count : false;
         }
     },
+    created() {
+        this.$q.events.$on('app:users', this.refetch)
+    },
     methods: {
+        async refetch() {
+            try {
+                await this.$apollo.queries.users.refetch()
+                await this.$apollo.queries.count.refetch()
+                this.$q.events.$emit('app:showToast', 'Refetched Users Successfully', 'positive')
+            } catch (e) {
+                this.$q.events.$emit('app:showToast', 'Error Refetching Users', 'negative')
+            }
+        },
         async loadMore(e, done) {
             try {
                 if (!this.canViewMore) return

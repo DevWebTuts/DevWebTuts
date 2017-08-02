@@ -8,7 +8,7 @@
             q-toolbar-title 
                 | {{article.user.firstName}} {{article.user.lastName}}
                 span(slot="subtitle") {{article.createdAt | moment("dddd, MMMM Do YYYY")}}
-            q-btn(round small outline loader, :icon="article.published ?  'visibility' : 'visibility_off'" @click="visible" v-if="canChangeVisibility")
+            q-btn(round small outline loader, :icon="article.published ?  'visibility' : 'visibility_off'" @click="visible" v-if="canChangeVisibility && $route.name !== 'articles'")
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
     props: ['article'],
     computed: {
         canChangeVisibility() {
-            return this.auth.currentUser || this.$route.name === 'articles' ? this.$route.name === 'user' ? this.auth.currentUser.admin || (this.auth.currentUser.id === this.$route.params.id) : (this.auth.currentUser.admin || this.$route.name === 'current_user') : false
+            return this.auth.currentUser ? this.$route.name === 'user' ? this.auth.currentUser.admin || this.auth.currentUser.id === this.$route.params.id : this.$route.name === 'current_user' ? true : false : false
         }
     },
     methods: {

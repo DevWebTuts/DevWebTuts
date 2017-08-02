@@ -6,7 +6,7 @@
 				q-btn(icon="home" small round outline @click="$router.push({name: 'index'})" dark)
 				q-btn(icon="assignment" small round outline @click="$router.push({name: 'articles'})" dark) 
 				q-btn(icon="code" small round outline @click="$refs.dialogCodeEditor.open()" dark) 				
-				q-btn(icon="account_face" small round outline @click="$router.push({name: 'users'})" dark v-if="currentUser && currentUser.admin") 				
+				q-btn(icon="dashboard" small round outline @click="$router.push({name: 'users'})" dark v-if="currentUser && currentUser.admin") 				
 				template(v-if="currentUser")
 					q-btn(icon="exit_to_app" small round outline @click="$root.logout()" )
 					img.cursor-pointer.avatar.shadow-10(:src="currentUser.image" @click="$router.push({name: 'current_user'})")

@@ -7,7 +7,7 @@ div
             h3.text-white.text-center.m-a.select--none #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
         .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
             q-btn(outline round icon="keyboard_arrow_down" color="white" )
-    .window-height
+    //.window-height
         .row.justify-around
             .col-xs-4
                 q-card

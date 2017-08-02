@@ -57,7 +57,9 @@ export default new VueRouter({
 
         {
             path: '*',
-            component: load('Error404')
+            redirect: {
+                name: 'index'
+            }
         }
     ]
 })

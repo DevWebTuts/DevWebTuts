@@ -5,8 +5,9 @@
             q-spinner-gears(:size="200" color="primary")
     .vh-100-min(v-else-if="article")
         .bg-primary.relative-position.window-height(v-if="!edit", key="headline")
-            .row.fit.ov.absolute
-                .m-a.text-center
+            img.absolute.ov.fit(:src="article.image")
+            .row.fit.absolute.ov
+                .m-a.text-center(style="z-index: 5")
                     h2.text-white {{article.title}}
                     img.author(:src="article.user.image", @click="$router.push({name: 'user', params: {id: article.user.id}})")
                     h4.text-white {{article.user.firstName}} {{article.user.lastName}}
@@ -23,7 +24,7 @@
                                     q-field(icon="vpn_key")
                                         q-input(v-model="deleteVerification" float-label="Article Title")
                                     q-btn.full-width(color="negative" @click="deleteArticle", :disabled="deleteVerification !== article.title" loader) Delete
-            img.absolute.fit(:src="article.image", style="pointer-events: none;")
+            
         template(v-else)
             q-toolbar
                 .cursor-pointer(:style="{background: `url(${article.image}) center center / contain no-repeat`}" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid white")

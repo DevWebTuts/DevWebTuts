@@ -20,6 +20,7 @@
 				code-editor
 			q-toolbar(slot="footer")
 				q-toolbar-title &copy; DevWebTuts 2017
+				q-btn(outline style="width: 150px" @click="review") Give as a Review
 </template>
 
 <script>
@@ -76,8 +77,9 @@ export default {
 		auth() {
 			this.$apollo.queries.currentUser.refetch()
 		},
-
-
+		review() {
+			window.open('https://docs.google.com/forms/d/e/1FAIpQLScEvuQmdmvIm0qTMHDp8wuByfL9pwXryOrb9WBgSHY2u36Qsw/viewform')
+		}
 	},
 
 	apollo: {

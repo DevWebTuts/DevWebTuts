@@ -6,18 +6,65 @@ div
         .absolute.fit.row
             h3.text-white.text-center.m-a.select--none #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
         .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
-            q-btn(outline round icon="keyboard_arrow_down" color="white" )
-    //.window-height
-        .row.justify-around
-            .col-xs-4
+            q-btn(outline round icon="keyboard_arrow_down" color="white")
+    #introduction
+        h1.text-center What is DevWebTuts
+        p.text-justify(style="width: 400px").m-a
+            | DevWebTuts stands for Developer Web Tutorials this is just for uniqueness. The purpose of the site is to allow users to have free references for
+            | Web development that will be created by contributors or you for helping beginners to start developing for the web. 
+            | This site will also be updated weekly by the admins sharing new technologies or tools for the web.
+    #features
+        h1.text-center Features
+        .row.layout-padding
+            .col-xs-12.col-sm-6.col-md-4(v-for="(feature,i) in features", :key="i")
                 q-card
-                    q-card-main Instructions Coming Soon
+                    q-toolbar
+                        q-icon(:name="feature.icon")
+                        q-toolbar-title {{feature.title}}
+                    q-card-main(style="height: 150px").row
+                        .m-a.text-center {{feature.description}}
 </template>
 
 <script>
 export default {
     name: 'index',
     inject: ['auth'],
+    data() {
+        return {
+            features: [
+                {
+                    title: 'Article Creation',
+                    description: 'Creating an article on the site will help alot of readers to learn about web development this will surely create good discussions on the article',
+                    icon: 'edit'
+                },
+                {
+                    title: 'Facebook Authentication',
+                    description: 'We used facebook as our authentication strategy including auth0 for secured logins and tracking unsual logins to our site',
+                    icon: 'vpn_key'
+                },
+                {
+                    title: 'Share Articles',
+                    description: 'Share your articles and make discussions about the article you created',
+                    icon: 'share'
+                },
+                {
+                    title: 'Article Discussions',
+                    description: 'Discuss the creation of others using our comment and reply system',
+                    icon: 'comment'
+                },
+                {
+                    title: 'Code Editor',
+                    description: 'Use the code editor so you can preview and try out the codes on the articles',
+                    icon: 'code'
+                },
+                {
+                    title: 'Search Articles',
+                    description: 'Realtime searching on the articles section that will surely help you to find out what you want to learn',
+                    icon: 'search'
+                },
+            ],
+        }
+    },
     metaInfo() {
         return {
             title: 'DevWebTuts',

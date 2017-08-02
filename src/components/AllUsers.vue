@@ -3,7 +3,8 @@
         q-toolbar(flat dark).accent
             q-toolbar-title Users ({{count ? count.count : 0}})
             q-search(icon="search" dark v-model="search" inverted)
-        users(:users="users", :loading="loading")
+        users(:users="users", :loading="offset === 1 && loading")
+        q-progress(indeterminate color="secondary" v-if="offset > 1 && loading")
         .text-center(style="margin-bottom: 16px")
             q-btn(style="width: 200px;" color="primary" loader @click="loadMore" v-if="canViewMore") View More
     .row.window-height(v-else)
@@ -82,6 +83,7 @@ export default {
         },
         users() {
             return {
+                loadingKey: 'loading',
                 query: this.$gql.queries.users,
                 variables: {
                     first: 8,

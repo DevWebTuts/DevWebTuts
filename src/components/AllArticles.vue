@@ -3,7 +3,8 @@
         q-toolbar(flat dark).accent
             q-toolbar-title Articles ({{count ? count.count : 0}})
             q-search(icon="search" dark v-model="search" inverted)
-        articles(:articles="articles", :loading="loading")
+        articles(:articles="articles", :loading="offset === 1 && loading")
+        q-progress(indeterminate color="secondary" v-if="offset > 1 && loading")
         .text-center(style="margin-bottom: 16px")
             q-btn(style="width: 200px;" color="primary" loader @click="loadMore" v-if="canViewMore") View More
 </template>
@@ -65,9 +66,9 @@ export default {
                         search: this.search,
                         first: this.loadedItems,
                     },
-                    updateQuery: (previousResult, { fetchMoreResult: { users } }) => {
+                    updateQuery: (previousResult, { fetchMoreResult: { articles } }) => {
                         return {
-                            users
+                            articles
                         }
                     },
                 })

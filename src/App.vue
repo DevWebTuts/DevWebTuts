@@ -15,7 +15,7 @@
 
                 template(v-if="currentUser")
                     q-btn(icon="exit_to_app" small round outline @click="$root.logout()" )
-                    img.cursor-pointer.avatar.shadow-10(:src="currentUser.image", @click="$router.push({name: 'current_user'})")
+                    img.cursor-pointer.avatar.shadow-10(v-lazy="currentUser.image", @click="$router.push({name: 'current_user'})")
                 q-btn(icon="vpn_key" small round outline @click="$root.login()" v-else-if="$route.name === 'index'")
             router-view
             q-modal(ref="dialogCodeEditor" maximized)

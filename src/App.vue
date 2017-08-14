@@ -4,9 +4,9 @@
 			q-toolbar(slot="header")
 				q-toolbar-title #[span.text-info Dev]#[span.text-warning Web]#[span.text-positive Tuts]
 				q-btn.xs(icon="home" small round outline @click="$router.push({name: 'index'})" dark)
-				q-btn.xs(icon="assignment" small round outline @click="$router.push({name: 'articles'})" dark) 
-				q-btn.xs(icon="code" small round outline @click="$refs.dialogCodeEditor.open()" dark) 				
-				q-btn.xs(icon="assignment_ind" small round outline @click="$router.push({name: 'users'})" dark v-if="currentUser && currentUser.admin") 	
+				q-btn.xs(icon="assignment" small round outline @click="$router.push({name: 'articles'})" dark)
+				q-btn.xs(icon="code" small round outline @click="$refs.dialogCodeEditor.open()" dark)
+				q-btn.xs(icon="assignment_ind" small round outline @click="$router.push({name: 'users'})" dark v-if="currentUser && currentUser.admin")
 
 				q-btn.gt-xs(icon="home" outline @click="$router.push({name: 'index'})" dark style="width: 120px") home
 				q-btn.gt-xs(icon="assignment" outline @click="$router.push({name: 'articles'})" dark style="width: 120px") Articles
@@ -15,7 +15,7 @@
 
 				template(v-if="currentUser")
 					q-btn(icon="exit_to_app" small round outline @click="$root.logout()" )
-					img.cursor-pointer.avatar.shadow-10(:src="currentUser.image" @click="$router.push({name: 'current_user'})")
+					img.cursor-pointer.avatar.shadow-10(:src="currentUser.image", @click="$router.push({name: 'current_user'})")
 				q-btn(icon="vpn_key" small round outline @click="$root.login()" v-else-if="$route.name === 'index'")
 			router-view
 			q-modal(ref="dialogCodeEditor" maximized)
@@ -24,9 +24,11 @@
 					q-btn(icon="close" outline small round @click="$refs.dialogCodeEditor.close()")
 
 				code-editor
+            q-fixed-position(corner="bottom-left", :offset="[18, 18]").z-absolute
+                q-btn.animate-pop(v-back-to-top.animate="{duration: 200}" color="secondary" round icon="keyboard_arrow_up")
 			q-toolbar(slot="footer")
 				q-toolbar-title &copy; DevWebTuts 2017
-				q-btn(outline style="width: 150px" @click="review") Give us a Review
+				q-btn(outline style="width: 150px", @click="review") Give us a Review
 </template>
 
 <script>

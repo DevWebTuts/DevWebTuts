@@ -8,14 +8,14 @@
                 q-popover(ref="deleteUserPopup")
                     q-toolbar
                         q-toolbar-title Delete User
-                        q-btn(outline color="white" round small icon="close" @click="$refs.deleteUserPopup.close()")
+                        q-btn(outline color="white" round small icon="close", @click="$refs.deleteUserPopup.close()")
                     div(style="padding: 24px")
                         q-field(icon="title")
                             q-input(v-model="deleteVerification" float-label="Enter User Full Name")
                         q-btn.full-width(color="negative" icon="delete" loader @click="deleteUser", :disabled="!deleteVerified") Delete User
-        q-card-media(style="height: 300px; width 100%" @click="$router.push({name: 'user', params: {id: user.id}})")
-            img(:src="user.image").fit
-        
+        q-card-media(style="height: 300px; width 100%", @click="$router.push({name: 'user', params: {id: user.id}})")
+            img(v-lazy="user.image").fit
+
 </template>
 
 <script>

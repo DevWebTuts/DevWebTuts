@@ -19,6 +19,7 @@ import router from './router'
 import gql from './gql'
 import auth from './auth'
 import VueApollo from 'vue-apollo'
+import VueLazyload from 'vue-lazyload'
 
 import client from './apollo'
 import VueScrollTo from 'vue-scrollto'
@@ -35,7 +36,13 @@ const apolloProvider = new VueApollo({
 });
 
 Vue.prototype.$gql = gql
-
+Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error  : '/statics/error.png',
+    loading: '/statics/loading.gif',
+    attempt: 1,
+    listenEvents: [ 'scroll' ]
+})
 Vue.config.productionTip = false
 Vue.use(Quasar, {
     components: All,

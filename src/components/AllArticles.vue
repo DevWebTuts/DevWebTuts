@@ -16,7 +16,7 @@ export default {
         return {
             scrolled: false,
             loading: 0,
-            limit: 8,
+            limit: 16,
             offset: 1,
             search: ''
         }
@@ -50,7 +50,7 @@ export default {
                 variables() {
                     return {
                         search: this.search,
-                        first: 8,
+                        first: 16,
                     }
                 }
             }

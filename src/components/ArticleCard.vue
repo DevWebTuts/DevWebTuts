@@ -1,14 +1,14 @@
 <template lang="pug">
     q-card
-        q-card-media.cursor-pointer(overlay-position="full" @click.stop="$router.push({name: 'article',params: {id: article.id}})")
-            img(:src="article.image" style="height: 300px").full-width
+        q-card-media.cursor-pointer(overlay-position="full", @click.stop="$router.push({name: 'article',params: {id: article.id}})")
+            img(v-lazy="article.image").full-width
             q-card-title(slot="overlay") {{article.title}}
         q-toolbar.cursor-pointer
             img.avatar(:src="article.user.image", @click.stop="$router.push({name: 'user', params: {id: article.user.id}})")
-            q-toolbar-title 
+            q-toolbar-title
                 | {{article.user.firstName}} {{article.user.lastName}}
                 span(slot="subtitle") {{article.createdAt | moment("dddd, MMMM Do YYYY")}}
-            q-btn(round small outline loader, :icon="article.published ?  'visibility' : 'visibility_off'" @click="visible" v-if="canChangeVisibility && $route.name !== 'articles'")
+            q-btn(round small outline loader, :icon="article.published ?  'visibility' : 'visibility_off'", @click="visible" v-if="canChangeVisibility && $route.name !== 'articles'")
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
     props: ['article'],
     computed: {
         canChangeVisibility() {
-            return this.auth.currentUser ? this.$route.name === 'user' ? this.auth.currentUser.admin || this.auth.currentUser.id === this.$route.params.id : this.$route.name === 'current_user' ? true : false : false
+            return this.auth.currentUser ? this.$route.name === 'user' ? this.auth.currentUser.admin || this.auth.currentUser.id === this.$route.params.id : this.$route.name === 'current_user' : false
         }
     },
     methods: {

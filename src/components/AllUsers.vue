@@ -19,7 +19,7 @@ export default {
     data() {
         return {
             loading: 0,
-            limit: 8,
+            limit: 16,
             offset: 1,
             search: ''
         }
@@ -86,7 +86,7 @@ export default {
                 loadingKey: 'loading',
                 query: this.$gql.queries.users,
                 variables: {
-                    first: 8,
+                    first: 16,
                     search: this.search
                 }
             }

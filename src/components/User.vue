@@ -1,7 +1,7 @@
 <template lang="pug">
     .row.vh-100-min
         .m-a(v-if="loading")
-            q-spinner(:size="100")
+            q-spinner-gears(:size="200", color="primary")
         .fit(v-else-if="user")
             div(style="padding: 16px")
                 h3.text-secondary Articles ({{user.articleCount.count}})

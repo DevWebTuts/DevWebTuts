@@ -1,5 +1,5 @@
 <template lang="pug">
-    .layout-padding
+    div
         q-toolbar(v-if="auth.currentUser")
             img.avatar(:src="auth.currentUser.image")
             q-toolbar-title
@@ -9,7 +9,7 @@
         q-field(icon="edit" v-if="auth.currentUser")
             q-input(type="textarea" v-model="body" float-label="Write a Comment")
         q-btn.full-width(color="primary" v-else @click="$root.login()") Login
-        comment(:comment="c", :key="index", v-for="(c,index) in comments")  
+        comment(:comment="c", :key="index", v-for="(c,index) in comments")
 </template>
 
 <script>

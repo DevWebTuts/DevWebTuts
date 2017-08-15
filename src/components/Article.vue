@@ -2,9 +2,24 @@
 
     .row.window-height(v-if="loading")
         .m-a
-            q-spinner-gears(:size="200" color="primary")
+            q-spinner-gears(:size="200", color="primary")
     .vh-100-min(v-else-if="article")
-        .bg-primary.relative-position.window-height(v-if="!edit", key="headline")
+
+        template(v-if="!edit")
+            .fixed-bottom-left(style="bottom: 50%; left: 16px; z-index: 5").gt-xs
+                q-btn.block(color="positive" icon="edit" round v-if="canEdit", @click="editArticle" style="margin-bottom: 16px")
+                q-btn.block(color="info" icon="share" round @click.native="shareArticle" style="margin-bottom: 16px")
+                q-btn.block(color="negative" icon="delete" round v-if="canEdit" style="margin-bottom: 16px")
+                    q-popover(ref="deleteArticlePopover")
+                        .bg-error(style="padding: 16px")
+                            .title.white--text Delete Article
+                        div(style="padding: 16px")
+                            p.roboto Enter #[b.text-secondary {{article.title}}] to delete
+                            q-field(icon="vpn_key")
+                                q-input(v-model="deleteVerification" float-label="Article Title")
+                            q-btn.full-width(color="negative", @click="deleteArticle", :disabled="deleteVerification !== article.title" loader) Delete
+
+        .bg-primary.relative-position.window-height(v-if="!edit", key="headline").gt-xs
             .parallax-attribs.fit.absolute(v-lazy:background-image="article.image")
             .row.fit.absolute.ov
                 .m-a.text-center(style="z-index: 5")
@@ -13,43 +28,71 @@
                     h4.text-white {{article.user.firstName}} {{article.user.lastName}}
                     h6.text-grey-5 Created {{article.createdAt | moment("from")}}
                     h6.text-grey-5 Updated {{article.updatedAt | moment("from")}}
-                    .row(style="width: 300px").justify-around.m-a
-                        q-btn(color="white" icon="edit" round outline v-if="canEdit", @click="editArticle")
-                        q-btn(color="white" icon="share" round outline @click.native="shareArticle")
-                        q-btn(color="white" icon="delete" round outline v-if="canEdit")
+
+        .bg-primary.relative-position.window-height(v-if="!edit", key="headline").xs
+            .parallax-attribs.fit.absolute(v-lazy:background-image="article.image")
+            .row.fit.absolute.ov
+                .m-a.text-center(style="z-index: 5")
+                    h4.text-white {{article.title}}
+                    img.author(v-lazy="article.user.image", style="width: 150px; height: 150px", @click="$router.push({name: 'user', params: {id: article.user.id}})")
+                    h6.text-white {{article.user.firstName}} {{article.user.lastName}}
+                    .text-grey-5 Created {{article.createdAt | moment("from")}}
+                    .text-grey-5 Updated {{article.updatedAt | moment("from")}}
+                    .row.justify-around(style="padding-top: 16px")
+                        q-btn.block(color="positive" icon="edit" round outline v-if="canEdit", @click="editArticle" style="margin-bottom: 16px")
+                        q-btn.block(color="info" icon="share" round outline @click.native="shareArticle" style="margin-bottom: 16px")
+                        q-btn.block(color="negative" icon="delete" round outline v-if="canEdit" style="margin-bottom: 16px")
                             q-popover(ref="deleteArticlePopover")
                                 .bg-error(style="padding: 16px")
                                     .title.white--text Delete Article
                                 div(style="padding: 16px")
+                                    p.roboto Enter #[b.text-secondary {{article.title}}] to delete
                                     q-field(icon="vpn_key")
                                         q-input(v-model="deleteVerification" float-label="Article Title")
                                     q-btn.full-width(color="negative", @click="deleteArticle", :disabled="deleteVerification !== article.title" loader) Delete
-
         template(v-else)
             q-toolbar
-                .cursor-pointer(:style="{background: `url(${article.image}) center center / contain no-repeat`}" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid white")
+                div(v-lazy:background-image="article.image", style="width: 100px; height: 100px; border: 2px solid white; margin-right: 16px; background-size: contain; background-repeat: no-repeat; background-position: center center")
                     q-popover(ref="articleImage")
                         q-toolbar
                             q-toolbar-title Article image
                         div(style="padding: 16px")
                             q-field(icon="add_a_photo")
                                 q-input(v-model="article.image" float-label="Article Image")
-                q-toolbar-title
-                    q-field(icon="title" dark)
-                        q-input(v-model="article.title" dark float-label="Title")
-                q-btn(color="warning" outline round small icon="undo", @click="undoEdit")
-                q-btn(color="positive" outline round small loader @click="updateArticle" icon="save")
+
+                q-field(dark).full-width
+                    q-input(v-model="article.title" dark float-label="Title")
 
 
+        .fixed-bottom-right(style="right: 18px; bottom: 18px;" v-if="edit").z-absolute
+            q-btn.block(color="warning" round icon="undo", @click="undoEdit" style="margin-bottom: 8px")
+            q-btn.block(color="positive" round loader @click="updateArticle" icon="save")
 
-        .row
+        .row.gt-xs
             .col-xs-12.col-sm-6(v-if="edit")
                 q-card
                     code-mirror.markdown--editor(v-model="article.body", mode="text/x-gfm" key="editor", @save="updateArticle")
             .col-xs-12(:class="edit ? 'col-sm-6' : 'col-sm-12'").pa-0
-                q-card(key="preview" v-if="article.body").article-preview.roboto
+                q-card(key="preview" v-if="article.body", :style="{'margin-left': edit ? '0px' : '100px'}").article-preview.roboto
                     q-card-main(v-html="result")
-                comments(v-if="!edit", :comments="article.comments", :article="article.id")
+
+        q-card(key="preview" v-if="article.body && !edit", :style="{'margin-left': edit ? '0px' : '100px'}").article-preview.no-margin.xs.roboto
+            q-card-main(v-html="result")
+
+        .xs(v-if="edit")
+            .row
+                .col-xs-6
+                    q-btn(:color="!preview ? 'primary' : 'secondary'", @click="preview = false").full-width.no-margin Code
+                .col-xs-6
+                    q-btn(:color="preview ? 'primary' : 'secondary'", @click="preview = true").full-width.no-margin Preview
+
+            q-card(v-if="!preview")
+                code-mirror.markdown--editor(v-model="article.body", mode="text/x-gfm" key="editor", @save="updateArticle")
+            q-card(key="preview" v-else, :style="{'margin-left': edit ? '0px' : '100px'}").article-preview.roboto
+                q-card-main(v-html="result")
+
+        comments(v-if="!edit", :style="{'margin-left': edit ? '0px' : '100px'}", :comments="article.comments", :article="article.id").gt-xs
+        comments(v-if="!edit", :comments="article.comments", :article="article.id").xs
 
 
 </template>
@@ -97,6 +140,7 @@ export default {
     data() {
         return {
             loading: 0,
+            preview: false,
             edit: false,
             result: '',
             article: {

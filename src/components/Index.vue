@@ -110,7 +110,7 @@
                     {
                         title: 'Code Editor',
                         image: '/statics/code-editor.png',
-                        description: 'Use the code editor so you can preview and try out the codes on the articles',
+                        description: 'Use the code editor so you can preview and try out the codes on the articles. This also supports auto completion and auto close brackets',
                         icon: 'code'
                     },
                     {

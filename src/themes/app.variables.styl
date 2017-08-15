@@ -31,15 +31,19 @@ $warning = #F2C037
         min-height 100vh
     &-max
         max-height 100vh
-
 .m-a
     margin auto
 
+
 .ov
-    background rgba(0, 0, 0, .5)
+    background rgba(0,0,0,.5)
+
+.article-preview > img
+    max-width 100% !important
+    max-height 100% !important
 
 .bg-secondary-alpha-8
-    background: alpha($primary, 0.8) !important
+    background: alpha($primary,0.8) !important
 
 .author
     cursor pointer
@@ -50,20 +54,23 @@ $warning = #F2C037
 
 ::-webkit-scrollbar
     width 10px
-    background: alpha($primary, 0.8) !important
+    background: alpha($primary,0.8) !important
 
 ::-webkit-scrollbar-track
-    -webkit-box-shadow inset 0 0 6px rgba(0, 0, 0, 0.3)
+    -webkit-box-shadow inset 0 0 6px rgba(0,0,0,0.3)
     border-radius 10px
 
 ::-webkit-scrollbar-thumb
     border-radius 10px
-    -webkit-box-shadow inset 0 0 6px rgba(0, 0, 0, 0.5)
-    background: alpha($secondary, 0.8) !important
+    -webkit-box-shadow inset 0 0 6px rgba(0,0,0,0.5)
+    background: alpha($secondary,0.8) !important
+
+.CodeMirror
+    min-height 100vh !important
 
 .CodeEditorDialog + .CodeMirror
-    max-height calc(100vh - 52px) !important
-    height calc(100vh - 52px) !important
+    height calc(100vh - 42px) !important
+
 
 pre code {
     display: block;
@@ -129,4 +136,9 @@ body
 
 .roboto
     font-family Roboto !important
+
+@require '../../node_modules/highlight.js/styles/atom-one-dark.css'
+@require '../../node_modules/codemirror/lib/codemirror.css'
+@require '../statics/atom-one-dark.css'
+@require '../../node_modules/codemirror/addon/hint/show-hint.css'
 

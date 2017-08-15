@@ -9,7 +9,7 @@
             .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
                 q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#features'")
 
-        .relative-position.xs(style="min-height: calc(70vh - 100px)")
+        .relative-position.xs(style="min-height: calc(100vh - 52px)")
             .parallax-attribs.fit.absolute(v-lazy:background-image="'/statics/bg.gif'", style="background-size: cover")
             .absolute.fit.row.ov
                 .text-center.m-a.select--none
@@ -18,7 +18,7 @@
             .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
                 q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#features'")
 
-        q-carousel#features(arrows dots autoplay infinite).text-white
+        q-carousel.bg-primary#features(arrows dots autoplay infinite fullscreen).text-white
             div(slot="slide" v-for="(feature,i) in features")
                 .gt-xs
                     .text-center

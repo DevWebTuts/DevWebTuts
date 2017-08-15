@@ -38,7 +38,7 @@ const apolloProvider = new VueApollo({
 Vue.prototype.$gql = gql
 Vue.use(VueLazyload, {
     preLoad: 1.3,
-    error  : '/statics/error.png',
+    error  : '/statics/no-image-available.jpg',
     loading: '/statics/loading.gif',
     attempt: 1,
     listenEvents: [ 'scroll' ]

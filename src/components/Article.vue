@@ -47,7 +47,7 @@
                 q-card
                     code-mirror.markdown--editor(v-model="article.body", mode="text/x-gfm" key="editor", @save="updateArticle")
             .col-xs-12(:class="edit ? 'col-sm-6' : 'col-sm-12'").pa-0
-                q-card(key="preview" v-if="article.body").article-preview
+                q-card(key="preview" v-if="article.body").article-preview.roboto
                     q-card-main(v-html="result")
                 comments(v-if="!edit", :comments="article.comments", :article="article.id")
 
@@ -201,6 +201,7 @@ export default {
         article() {
             return {
                 query: this.$gql.queries.article,
+                pollInterval: 1000,
                 variables() {
                     return {
                         id: this.id || 0

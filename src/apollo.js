@@ -42,7 +42,7 @@ const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
 
 const client = new ApolloClient({
     networkInterface: networkInterfaceWithSubscriptions,
-    dataIdFromObject: o => o.id,
+    dataIdFromObject: o => `${o.__typename}:${o.id}`,
     connectToDevTools: true,
 });
 

@@ -1,29 +1,49 @@
 <template lang="pug">
-    div
-        .relative-position(style="height: calc(100vh - 100px)")
+    .bg-primary
+        .relative-position.gt-xs(style="min-height: calc(100vh - 52px)")
             .parallax-attribs.fit.absolute(v-lazy:background-image="'/statics/bg.gif'", style="background-size: cover")
-            .fit.absolute.ov
-            .absolute.fit.row
-                h3.text-white.text-center.m-a.select--none #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
+            .absolute.fit.row.ov
+                .text-center.m-a.select--none
+                    img(v-lazy="'/statics/logo.png'")
+                    h3.text-white #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
             .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
-                q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#introduction'")
-        #introduction
-            h3.text-center What is DevWebTuts
-            p.text-center.layout-padding
-                | DevWebTuts stands for Developer Web Tutorials this is just for uniqueness. The purpose of the site is to allow users to have free references for #[br]
-                | Web development that will be created by contributors or you for helping beginners to start developing for the web. #[br]
-                | This site will also be updated weekly by the admins sharing new technologies or tools for the web.
-            hr
-        #features
-            h2.text-center Features
-            .row.layout-padding(style="padding-right: 80px; padding-left: 80px")
-                .col-xs-12.col-sm-6.col-md-4(v-for="(feature,i) in features", :key="i")
+                q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#features'")
+
+        .relative-position.xs(style="min-height: calc(70vh - 100px)")
+            .parallax-attribs.fit.absolute(v-lazy:background-image="'/statics/bg.gif'", style="background-size: cover")
+            .absolute.fit.row.ov
+                .text-center.m-a.select--none
+                    img(v-lazy="'/statics/logo.png'")
+                    h5.text-white #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
+            .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
+                q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#features'")
+
+        q-carousel#features(arrows dots autoplay infinite).text-white
+            div(slot="slide" v-for="(feature,i) in features")
+                .gt-xs
+                    .text-center
+                        q-icon.text-center(color="secondary", :name="feature.icon" size="5rem" style="border-radius: 50%; border: white solid 1px; padding: 8px")
+                    h1.text-center.text-secondary {{feature.title}}
+                    h5.text-center {{feature.description}}
+                .xs
+                    .text-center
+                        q-icon.text-center(color="secondary", :name="feature.icon" size="2rem" style="border-radius: 50%; border: white solid 1px; padding: 8px")
+                    h5.text-center.text-secondary {{feature.title}}
+                    .text-center {{feature.description}}
+                q-card
+                    q-card-media
+                        img(:src="feature.image")
+
+        #team(style="min-height: 100vh;")
+            h1.text-center.text-secondary Our Team
+            .row.xs-gutter.layout-padding
+                .col-xs-12.col-sm-6.col-md-4(v-for="(member,i) in members", :key="i")
                     q-card
-                        q-toolbar
-                            q-icon(:name="feature.icon")
-                            q-toolbar-title {{feature.title}}
-                        q-card-main(style="height: 150px").row
-                            .m-a.text-center {{feature.description}}
+                        q-card-media(overlay-position="full" style="max-height: 500px")
+                            img(v-lazy="member.image").fit
+                            q-card-title(slot="overlay") {{member.name}}
+                                span(slot="subtitle") {{member.role}}
+
 </template>
 
 <script>
@@ -32,34 +52,70 @@
         inject: ['auth'],
         data() {
             return {
+                members: [
+                    {
+                        name: 'Ralph Christian Eclipse',
+                        role: 'Web Developer',
+                        image: 'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/11796216_1175820312443445_6278156916354891556_n.jpg?oh=8a5e74e3685eed7b9b274ba145191c6c&oe=5A367657'
+                    },
+                    {
+                        name: 'Juzel Ann Bernardo',
+                        role: 'Project Manager',
+                        image: 'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/18194903_1373939229361407_5978042126860386899_n.jpg?oh=66266feacce211178dcded8e6efc6dcc&oe=5A21547C'
+                    },
+                    {
+                        name: 'Aaron John Sapnay',
+                        role: 'Content Writer',
+                        image: 'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/20429790_1490493674340658_5682547908317723515_n.jpg?oh=295007baff06d0a7e16d264a66b0582b&oe=5A20D72E'
+                    },
+                    {
+                        name: 'Rommel Reonico',
+                        role: 'Content Writer',
+                        image: 'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/17201367_1806977715994774_1458864594794412036_n.jpg?oh=8ca0efbbcba8dc6fac4c51e10a4a9916&oe=5A36A621'
+                    },                    {
+                        name: 'Arianne Alejandrino',
+                        role: 'Content Writer',
+                        image: 'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/20708108_1184415161704315_7545032159394840596_n.jpg?oh=29b2069fba2fa6fec9ce8557c6fffe1b&oe=5A387E1E'
+                    },                    {
+                        name: 'John Paul Gonzales',
+                        role: 'Content Writer',
+                        image: 'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/18342041_1790122557968233_7106546273667414628_n.jpg?oh=dfef490ee3c30412be95a56d1267a65a&oe=5A340D1D'
+                    },
+                ],
                 features: [
                     {
                         title: 'Article Creation',
+                        image: '/statics/article-creation.png',
                         description: 'Creating an article on the site will help alot of readers to learn about web development this will surely create good discussions on the article',
                         icon: 'edit'
                     },
                     {
                         title: 'Facebook Authentication',
+                        image: '/statics/facebook-authentication.png',
                         description: 'We used facebook as our authentication strategy including auth0 for secured logins and tracking unsual logins to our site',
                         icon: 'vpn_key'
                     },
                     {
                         title: 'Share Articles',
+                        image: '/statics/share-articles.png',
                         description: 'Share your articles and make discussions about the article you created',
                         icon: 'share'
                     },
                     {
                         title: 'Article Discussions',
+                        image: '/statics/article-discussions.png',
                         description: 'Discuss the creation of others using our comment and reply system',
                         icon: 'comment'
                     },
                     {
                         title: 'Code Editor',
+                        image: '/statics/code-editor.png',
                         description: 'Use the code editor so you can preview and try out the codes on the articles',
                         icon: 'code'
                     },
                     {
                         title: 'Search Articles',
+                        image: '/statics/search-article.png',
                         description: 'Realtime searching on the articles section that will surely help you to find out what you want to learn',
                         icon: 'search'
                     }

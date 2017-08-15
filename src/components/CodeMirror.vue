@@ -39,14 +39,15 @@
         extraKeys: {
           "Ctrl-Space": "autocomplete"
         },
-        pollInterval: 2000 
+        pollInterval: 2000
       })
 
       this.editor.setValue(this.value);
-      
+
       this.editor.on('changes', cm => {
         this.$emit('input', cm.getValue());
       })
+
     },
 
     beforeDestroy() {

@@ -1,5 +1,5 @@
 <template lang="pug">
-    .row(style="min-height: calc(100vh - 100px)")
+    .row(style="min-height: calc(100vh - 100px); padding:")
         .m-a(v-if="auth.userLoading")
             q-spinner(:size="100")
         .fit(v-else-if="auth.currentUser")
@@ -15,7 +15,7 @@
                         img(:src="article.image", style="height: 300px; width: 300px")
                     q-field(icon="add_a_photo")
                         q-input(v-model="article.image" float-label="Image")
-            q-btn.fixed-bottom-right(round icon="add" color="primary" style="bottom: 70px; right: 18px; z-index: 5" @click="$refs.newArticleDialog.open()")
+            q-btn.fixed-bottom-right.z-absolute(round icon="add" color="secondary" style="bottom: 80px; right: 18px; z-index: 5", @click="$refs.newArticleDialog.open()")
             div(style="padding: 16px")
                 h3.text-secondary Articles ({{auth.currentUser.articleCount.count}})
                 h5 {{auth.currentUser.firstName}}
@@ -23,7 +23,7 @@
         .m-a(v-else)
             h1.text-center Login now to create articles
             .text-center
-                q-btn(style="width: 200px", color="primary" @click="$root.login()") Login
+                q-btn(style="width: 200px", color="primary", @click="$root.login()") Login
 </template>
 
 <script>

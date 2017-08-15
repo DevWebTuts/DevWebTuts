@@ -1,8 +1,12 @@
 <template lang="pug">
     .vh-100-min
         q-toolbar(flat dark).accent
-            q-toolbar-title Articles ({{count ? count.count : 0}})
-            q-search(icon="search" dark v-model="search" inverted)
+            q-toolbar-title.gt-xs Articles ({{count ? count.count : 0}})
+            q-search.gt-xs(icon="search" dark v-model="search" inverted)
+            .col.xs
+                q-toolbar-title.text-center(style="padding: 24px") Articles ({{count ? count.count : 0}})
+                q-search(icon="search" dark v-model="search" inverted)
+
         articles(:articles="articles", :loading="offset === 1 && loading")
         q-progress(indeterminate color="secondary" v-if="offset > 1 && loading")
         .text-center(style="margin-bottom: 16px")

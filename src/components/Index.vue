@@ -32,7 +32,7 @@
                     .text-center {{feature.description}}
                 q-card
                     q-card-media
-                        img(:src="feature.image")
+                        img(v-lazy="feature.image")
 
         #team(style="min-height: 100vh;")
             h1.text-center.text-secondary Our Team

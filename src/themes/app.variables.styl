@@ -75,7 +75,6 @@ $warning = #F2C037
 .CodeEditorDialog + .CodeMirror
     height calc(100vh - 42px) !important
 
-
 pre code {
     display: block;
     overflow-x: auto;
@@ -146,3 +145,5 @@ body
 @require '../statics/atom-one-dark.css'
 @require '../../node_modules/codemirror/addon/hint/show-hint.css'
 
+.CodeMirror-hints
+    z-index 10000 !important

@@ -4,7 +4,7 @@
             .parallax-attribs.fit.absolute(v-lazy:background-image="'/statics/bg.gif'", style="background-size: cover")
             .absolute.fit.row.ov
                 .text-center.m-a.select--none
-                    img(v-lazy="'/statics/logo.png'")
+                    img(v-lazy="'/statics/logo.png'" style="width: 60%; height: 60%;")
                     h3.text-white #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
             .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
                 q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#features'")
@@ -13,12 +13,12 @@
             .parallax-attribs.fit.absolute(v-lazy:background-image="'/statics/bg.gif'", style="background-size: cover")
             .absolute.fit.row.ov
                 .text-center.m-a.select--none
-                    img(v-lazy="'/statics/logo.png'" style="width: 80%; height: 80%;")
+                    img(v-lazy="'/statics/logo.png'" style="width: 35%; height: 35%;")
                     h5.text-white #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
             .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
                 q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#features'")
 
-        q-carousel.bg-primary#features(arrows dots autoplay infinite fullscreen).text-white
+        q-carousel.bg-primary#features(arrows dots fullscreen).text-white
             div(slot="slide" v-for="(feature,i) in features")
                 .gt-xs
                     .text-center
@@ -33,7 +33,6 @@
                 q-card
                     q-card-media
                         img(v-lazy="feature.image")
-
         #team(style="min-height: 100vh;")
             h1.text-center.text-secondary Our Team
             .row.xs-gutter.layout-padding

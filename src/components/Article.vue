@@ -263,9 +263,3 @@ export default {
     },
 }
 </script>
-
-<style lang="stylus">
-    .markdown--editor + .CodeMirror
-        min-height 100%
-        height 100% !important
-</style>

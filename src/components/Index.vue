@@ -13,7 +13,7 @@
             .parallax-attribs.fit.absolute(v-lazy:background-image="'/statics/bg.gif'", style="background-size: cover")
             .absolute.fit.row.ov
                 .text-center.m-a.select--none
-                    img(v-lazy="'/statics/logo.png'")
+                    img(v-lazy="'/statics/logo.png'" style="width: 80%; height: 80%;")
                     h5.text-white #[span.text-info Dev]eloper #[span.text-warning Web] #[span.text-positive Tut]orial#[span.text-positive s]
             .absolute.text-center(style="bottom: 24px; left: 0; right: 0")
                 q-btn(outline round icon="keyboard_arrow_down" color="white" v-scroll-to="'#features'")

@@ -6,8 +6,7 @@
             .col.xs
                 q-toolbar-title.text-center(style="padding: 24px") Articles ({{count ? count.count : 0}})
                 q-search(icon="search" dark v-model="search" inverted)
-        q-infinite-scroll(:handler="loadMore")
-            articles(:articles="articles", :loading="offset === 1 && loading")
+        articles(:articles="articles", :loading="offset === 1 && loading")
         q-progress(indeterminate color="secondary" v-if="offset > 1 && loading")
         .text-center(style="margin-bottom: 16px")
             q-btn(style="width: 200px;" color="primary" loader @click="loadMore" v-if="canViewMore") View More
